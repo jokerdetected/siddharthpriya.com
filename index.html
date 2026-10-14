@@ -157,9 +157,25 @@
       padding-block: clamp(40px, 6vh, 72px) clamp(72px, 14vh, 160px);
     }
     .hero-body { display: grid; }
-    .hero-body > .headline { margin-top: clamp(16px, 2vw, 24px); }   /* label sits close to what it labels */
+    .hero-body > .headline { margin-top: clamp(24px, 3vw, 32px); }   /* label sits close to what it labels */
     .hero-body > .hero-sub { margin-top: clamp(24px, 3vw, 40px); }   /* headline to supporting text */
     .hero-body > .cta-row  { margin-top: clamp(32px, 4vw, 48px); }   /* text to action */
+    .intro-meta { display: grid; gap: 10px; }
+    .exp {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px;
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      line-height: 1.5;
+    }
+    .exp b { font-weight: 500; color: var(--ink); margin-left: .35em; }
+    .exp-sep { color: var(--rule-strong); }
+    @media (max-width: 559px) {
+      .exp { flex-direction: column; gap: 2px; }
+      .exp-sep { display: none; }
+    }
     .eyebrow {
       font-family: var(--mono);
       font-size: .8125rem;
@@ -551,7 +567,14 @@
     <section class="hero wrap" aria-labelledby="headline">
 
       <div class="hero-body">
-        <p class="eyebrow" data-load>Senior Staff Product Designer</p>
+        <div class="intro-meta" data-load>
+          <p class="eyebrow">Senior Staff Product Designer</p>
+          <p class="exp">
+            <span class="exp-item">Total experience <b>10+ years</b></span>
+            <span class="exp-sep" aria-hidden="true">|</span>
+            <span class="exp-item">Design experience <b>7+ years</b></span>
+          </p>
+        </div>
 
         <h1 class="headline" id="headline">
           <span class="line"><span>I design payments</span></span>
