@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Case studies | Siddharth Priya</title>
+  <meta name="description" content="Design case studies by Siddharth Priya, Senior Staff Product Designer at Paytm.">
+  <meta name="theme-color" content="#FAF8F4">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23141414'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23FAF8F4' text-anchor='middle'%3ESP%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FAF8F4; --ink: #141414; --ink-2: #55514A; --accent: #1E5B43;
+      --rule: rgba(20,20,20,.12); --rule-strong: rgba(20,20,20,.30);
+      --serif: "Fraunces", Georgia, "Times New Roman", serif;
+      --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --ease: cubic-bezier(.16,1,.3,1);
+      --gutter: clamp(16px, 4vw, 48px); --max: 1240px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+    body { margin: 0; overflow-x: clip; background-color: var(--paper);
+      background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(20,20,20,.028) 31px 32px);
+      color: var(--ink); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    h1, h2, p, ul { margin: 0; padding: 0; list-style: none; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+    .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+    .mono { font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); line-height: 1.4; }
+
+    .site-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
+    .brand { font-family: var(--serif); font-size: 1.125rem; font-variation-settings: "opsz" 24; text-decoration: none; letter-spacing: -.01em; padding-block: 12px; }
+    .header-link { font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; padding: 14px 0;
+      background: linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 1px no-repeat; transition: background-size .4s var(--ease); }
+    .header-link:hover { background-size: 100% 1px; }
+
+    .intro { padding-block: clamp(40px, 6vh, 72px) clamp(40px, 6vw, 72px); }
+    .eyebrow { font-family: var(--mono); font-size: .8125rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+    h1 { font-family: var(--serif); font-weight: 350; font-variation-settings: "opsz" 144; font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 1.08; letter-spacing: -.025em; margin-top: clamp(16px, 2vw, 24px); }
+    h1 em { font-style: italic; color: var(--accent); font-weight: 330; }
+    .sub { max-width: 46ch; margin-top: clamp(24px, 3vw, 40px); font-size: clamp(1.0625rem, 1.4vw, 1.25rem); color: var(--ink-2); }
+
+    .list { border-top: 1px solid var(--ink); margin-bottom: clamp(72px, 12vw, 160px); }
+    .study { display: grid; gap: 28px; padding-block: clamp(24px, 3vw, 40px); border-bottom: 1px solid var(--rule-strong); text-decoration: none; position: relative; }
+    @media (min-width: 900px) { .study { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; } }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+    .study h2 { font-family: var(--serif); font-weight: 350; font-variation-settings: "opsz" 72; font-size: clamp(1.75rem, 3.6vw, 3rem);
+      line-height: 1.1; letter-spacing: -.02em; margin-top: 16px; max-width: 18ch; text-wrap: balance; }
+    .study p.desc { color: var(--ink-2); max-width: 46ch; margin-top: 16px; }
+    .go { display: inline-flex; align-items: center; gap: 12px; margin-top: 28px; font-weight: 500; font-size: .9375rem; padding-bottom: 4px;
+      border-bottom: 1px solid var(--ink); transition: color .3s var(--ease), border-color .3s var(--ease); }
+    .go .arrow { font-family: var(--mono); transition: transform .35s var(--ease); }
+    .study:hover .go { color: var(--accent); border-color: var(--accent); }
+    .study:hover .go .arrow { transform: translateX(4px); }
+    .shots { display: flex; justify-content: center; gap: clamp(12px, 2vw, 24px); background: #F0EDE5; padding: clamp(24px, 4vw, 40px) clamp(16px, 3vw, 32px) 0; overflow: hidden; height: clamp(280px, 34vw, 400px); align-items: flex-end; }
+    .shots img { display: block; width: min(44%, 200px); height: auto; border: 1px solid var(--rule-strong); border-bottom: 0; border-radius: 18px 18px 0 0; background: #fff;
+      transition: transform .6s var(--ease); }
+    .shots img:first-child { align-self: flex-end; transform: translateY(24px); }
+    .study:hover .shots img:first-child { transform: translateY(8px); }
+    .study:hover .shots img:last-child { transform: translateY(-8px); }
+    .shots img:last-child { transform: translateY(0); }
+
+    footer .wrap { padding-bottom: 32px; }
+    footer .row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 24px; padding-top: 12px; border-top: 1px solid var(--rule-strong); }
+    footer a { text-decoration: none; padding-block: 12px; }
+    footer a:hover { color: var(--accent); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="site-header wrap">
+    <a class="brand" href="index.html">Siddharth Priya</a>
+    <a class="header-link" href="https://www.linkedin.com/in/siddharthpriya1" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </header>
+
+  <main class="wrap">
+    <section class="intro" aria-labelledby="t">
+      <p class="eyebrow">Case studies</p>
+      <h1 id="t">Selected <em>work</em></h1>
+      <p class="sub">Research, thinking and design behind products I have led at Paytm Payment Gateway.</p>
+    </section>
+
+    <ul class="list">
+      <li>
+        <a class="study" href="lightning-checkout-case-study.html">
+          <div>
+            <p class="tags mono"><span>Checkout</span><span>Mobile web</span><span>Research</span></p>
+            <h2>Lightning Checkout</h2>
+            <p class="desc">An accelerated checkout merchants add to their storefront. Shoppers pay with a mobile number, a one-time code and a saved address. Brief, research, information architecture, journey map and design review.</p>
+            <span class="go">Read case study <span class="arrow" aria-hidden="true">→</span></span>
+          </div>
+          <div class="shots" aria-hidden="true">
+            <img src="assets/01-landing.png" alt="" width="376" height="812" loading="lazy">
+            <img src="assets/10-payment.png" alt="" width="376" height="812" loading="lazy">
+          </div>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    <div class="wrap"><div class="row mono">
+      <span>Siddharth Priya</span>
+      <a href="index.html">Home</a>
+      <span>© <span data-year>2026</span></span>
+    </div></div>
+  </footer>
+  <script>var y=document.querySelector('[data-year]');if(y)y.textContent=new Date().getFullYear();</script>
+</body>
+</html>
