@@ -10,7 +10,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23141414'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23FAF8F4' text-anchor='middle'%3ESP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================================
@@ -70,25 +70,21 @@
     /* =========================================================
        3. HEADER
        ========================================================= */
-    .site-header {
-      position: sticky; top: 0; z-index: 30;
-      background: rgba(250, 248, 244, .96);
-      border-bottom: 1px solid var(--rule);
-      backdrop-filter: saturate(1.2) blur(6px);
-    }
-    .hdr { display: flex; align-items: center; gap: 8px 32px; flex-wrap: wrap; min-height: 56px; }
-    .brand { font-family: var(--serif); font-size: 1.0625rem; font-weight: 450; color: var(--ink); text-decoration: none; padding-block: 12px; white-space: nowrap; }
-    .nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; flex: 1 1 100%; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+    .site-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
+    .brand { font-family: var(--serif); font-size: 1.125rem; font-variation-settings: "opsz" 24; font-weight: 400; color: var(--ink); text-decoration: none; letter-spacing: -.01em; padding-block: 12px; white-space: nowrap; }
+    .header-link { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); text-decoration: none; padding: 14px 0;
+      background: linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 1px no-repeat; transition: background-size .4s var(--ease); }
+    .header-link:hover { background-size: 100% 1px; color: var(--ink); }
+
+    /* Section links: a quiet sticky strip below the header, no rule */
+    .subnav { position: sticky; top: 0; z-index: 30; background: var(--paper); }
+    .nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
     .nav::-webkit-scrollbar { display: none; }
-    .nav a {
-      flex: none; color: var(--ink-2); text-decoration: none; font-size: .875rem; font-weight: 500;
-      padding: 10px 12px; border-bottom: 2px solid transparent; margin-bottom: -1px;
-    }
+    .nav a { flex: none; color: var(--ink-2); text-decoration: none; font-size: .875rem; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid transparent; }
     .nav a:hover { color: var(--ink); }
     .nav a[aria-current="true"] { color: var(--ink); border-bottom-color: var(--accent); }
-    @media (min-width: 1000px) {
-      .nav { flex: 1 1 auto; margin-inline: 0; padding-inline: 0; justify-content: flex-end; }
-    }
+    .nav a:first-child { padding-left: 0; }
+    @media (min-width: 1000px) { .nav { margin-inline: 0; padding-inline: 0; } }
 
     /* =========================================================
        4. HERO
@@ -118,7 +114,7 @@
     /* =========================================================
        5. SECTIONS
        ========================================================= */
-    .sec { padding-block: var(--sec); border-top: 1px solid var(--rule); scroll-margin-top: 56px; }
+    .sec { padding-block: var(--sec); border-top: 1px solid var(--rule); scroll-margin-top: 48px; }
     .hero + .sec { margin-top: clamp(48px, 7vw, 96px); }
     .sec-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px 56px; }
     @media (min-width: 1000px) {
@@ -317,7 +313,7 @@
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
     @media print {
-      .site-header { position: static; }
+      .subnav { position: static; }
       .nav { display: none; }
       .sec { break-inside: avoid-page; }
       .rail, .strip, .scroll-x { overflow: visible; flex-wrap: wrap; }
@@ -327,9 +323,11 @@
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="wrap hdr">
-      <a class="brand" href="index.html">Siddharth Priya</a>
+  <header class="site-header wrap">
+    <a class="brand" href="index.html">Siddharth Priya</a>
+    <a class="header-link" href="https://www.linkedin.com/in/siddharthpriya1" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </header>
+  <div class="subnav"><div class="wrap">
       <nav class="nav" aria-label="Case study sections">
         <a href="#brief">Brief</a>
         <a href="#problem">Problem</a>
@@ -342,8 +340,7 @@
         <a href="#measure">Measuring</a>
         <a href="case-studies.html">All case studies</a>
       </nav>
-    </div>
-  </header>
+  </div></div>
 
   <main>
     <!-- ======================= HERO ======================= -->
