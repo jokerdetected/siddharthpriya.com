@@ -37,32 +37,25 @@
       background: linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 1px no-repeat; transition: background-size .4s var(--ease); }
     .header-link:hover { background-size: 100% 1px; }
 
-    .intro { padding-block: clamp(40px, 6vh, 72px) clamp(40px, 6vw, 72px); }
-    .eyebrow { font-family: var(--mono); font-size: .8125rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
-    h1 { font-family: var(--serif); font-weight: 350; font-variation-settings: "opsz" 144; font-size: clamp(2.5rem, 7vw, 5.5rem);
-      line-height: 1.08; letter-spacing: -.025em; margin-top: clamp(16px, 2vw, 24px); }
-    h1 em { font-style: italic; color: var(--accent); font-weight: 330; }
-    .sub { max-width: 46ch; margin-top: clamp(24px, 3vw, 40px); font-size: clamp(1.0625rem, 1.4vw, 1.25rem); color: var(--ink-2); }
+    .intro { padding-block: clamp(40px, 6vh, 72px) clamp(24px, 3vw, 32px); }
+    h1.eyebrow { margin: 0; font-family: var(--mono); font-size: .8125rem; font-weight: 400; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
 
-    .list { border-top: 1px solid var(--ink); margin-bottom: clamp(72px, 12vw, 160px); }
-    .study { display: grid; gap: 28px; padding-block: clamp(24px, 3vw, 40px); border-bottom: 1px solid var(--rule-strong); text-decoration: none; position: relative; }
-    @media (min-width: 900px) { .study { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; } }
-    .tags { display: flex; flex-wrap: wrap; gap: 8px 16px; }
-    .study h2 { font-family: var(--serif); font-weight: 350; font-variation-settings: "opsz" 72; font-size: clamp(1.75rem, 3.6vw, 3rem);
-      line-height: 1.1; letter-spacing: -.02em; margin-top: 16px; max-width: 18ch; text-wrap: balance; }
-    .study p.desc { color: var(--ink-2); max-width: 46ch; margin-top: 16px; }
-    .go { display: inline-flex; align-items: center; gap: 12px; margin-top: 28px; font-weight: 500; font-size: .9375rem; padding-bottom: 4px;
-      border-bottom: 1px solid var(--ink); transition: color .3s var(--ease), border-color .3s var(--ease); }
-    .go .arrow { font-family: var(--mono); transition: transform .35s var(--ease); }
-    .study:hover .go { color: var(--accent); border-color: var(--accent); }
-    .study:hover .go .arrow { transform: translateX(4px); }
-    .shots { display: flex; justify-content: center; gap: clamp(12px, 2vw, 24px); background: #F0EDE5; padding: clamp(24px, 4vw, 40px) clamp(16px, 3vw, 32px) 0; overflow: hidden; height: clamp(280px, 34vw, 400px); align-items: flex-end; }
-    .shots img { display: block; width: min(44%, 200px); height: auto; border: 1px solid var(--rule-strong); border-bottom: 0; border-radius: 18px 18px 0 0; background: #fff;
-      transition: transform .6s var(--ease); }
-    .shots img:first-child { align-self: flex-end; transform: translateY(24px); }
-    .study:hover .shots img:first-child { transform: translateY(8px); }
-    .study:hover .shots img:last-child { transform: translateY(-8px); }
-    .shots img:last-child { transform: translateY(0); }
+    /* Text-only cards: the whole card is the link */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; margin-bottom: clamp(72px, 12vw, 160px); }
+    .card {
+      display: flex; flex-direction: column; height: 100%;
+      padding: clamp(24px, 3vw, 32px);
+      background: #FDFCF9;
+      border: 1px solid var(--rule-strong);
+      text-decoration: none;
+      transition: border-color .3s var(--ease), background-color .3s var(--ease);
+    }
+    .card:hover { border-color: var(--ink); background: #fff; }
+    .card:hover h2 { color: var(--accent); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+    .card h2 { font-family: var(--serif); font-weight: 400; font-variation-settings: "opsz" 72; font-size: clamp(1.625rem, 2.6vw, 2rem);
+      line-height: 1.15; letter-spacing: -.015em; margin-top: 16px; transition: color .3s var(--ease); }
+    .card .desc { color: var(--ink-2); margin-top: 12px; font-size: .9688rem; line-height: 1.6; }
 
     footer .wrap { padding-bottom: 32px; }
     footer .row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 24px; padding-top: 12px; border-top: 1px solid var(--rule-strong); }
@@ -78,25 +71,16 @@
   </header>
 
   <main class="wrap">
-    <section class="intro" aria-labelledby="t">
-      <p class="eyebrow">Case studies</p>
-      <h1 id="t">Selected <em>work</em></h1>
-      <p class="sub">Research, thinking and design behind products I have led at Paytm Payment Gateway.</p>
+    <section class="intro">
+      <h1 class="eyebrow">Case studies</h1>
     </section>
 
-    <ul class="list">
+    <ul class="cards">
       <li>
-        <a class="study" href="lightning-checkout-case-study.html">
-          <div>
-            <p class="tags mono"><span>Checkout</span><span>Mobile web</span><span>Research</span></p>
-            <h2>Lightning Checkout</h2>
-            <p class="desc">An accelerated checkout merchants add to their storefront. Shoppers pay with a mobile number, a one-time code and a saved address. Brief, research, information architecture, journey map and design review.</p>
-            <span class="go">Read case study <span class="arrow" aria-hidden="true">→</span></span>
-          </div>
-          <div class="shots" aria-hidden="true">
-            <img src="assets/01-landing.png" alt="" width="376" height="812" loading="lazy">
-            <img src="assets/10-payment.png" alt="" width="376" height="812" loading="lazy">
-          </div>
+        <a class="card" href="lightning-checkout-case-study.html">
+          <p class="tags mono"><span>Checkout</span><span>Mobile web</span><span>Research</span></p>
+          <h2>Lightning Checkout</h2>
+          <p class="desc">An accelerated checkout merchants add to their storefront. Shoppers pay with a mobile number, a one-time code and a saved address. Brief, research, information architecture, journey map and design review.</p>
         </a>
       </li>
     </ul>
