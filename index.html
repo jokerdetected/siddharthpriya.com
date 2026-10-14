@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Siddharth Priya — Senior Staff Product Designer</title>
+  <meta name="description" content="Siddharth Priya is a Senior Staff Product Designer leading design for Paytm Payment Gateway, designing payments for both consumers and merchants.">
+  <meta name="theme-color" content="#FAF8F4">
+  <meta property="og:title" content="Siddharth Priya — Senior Staff Product Designer">
+  <meta property="og:description" content="I design payments for both sides of the checkout.">
+  <meta property="og:url" content="https://www.siddharthpriya.com">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23141414'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23FAF8F4' text-anchor='middle'%3ESP%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Mark that JS is available so hidden "before" states only apply when animation can run -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <style>
+    /* =========================================================
+       1. TOKENS
+       ========================================================= */
+    :root {
+      --paper: #FAF8F4;
+      --paper-2: #F2EFE8;
+      --ink: #141414;
+      --ink-2: #55514A;          /* secondary text, AA on paper */
+      --rule: rgba(20, 20, 20, .12);
+      --rule-strong: rgba(20, 20, 20, .30);
+      --accent: #1E5B43;         /* deep ledger green, used sparingly */
+
+      --serif: "Fraunces", Georgia, "Times New Roman", serif;
+      --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --gutter: clamp(16px, 4vw, 48px);
+      --max: 1240px;
+      --section: clamp(80px, 12vw, 168px);
+    }
+
+    /* =========================================================
+       2. BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+    body {
+      margin: 0;
+      overflow-x: clip;
+      background-color: var(--paper);
+      /* faint statement ruling */
+      background-image: repeating-linear-gradient(
+        to bottom, transparent 0 31px, rgba(20, 20, 20, .028) 31px 32px);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    h1, h2, h3, p, dl, dd { margin: 0; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--max);
+      margin-inline: auto;
+      padding-inline: var(--gutter);
+    }
+
+    /* =========================================================
+       3. LAYOUT
+       ========================================================= */
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px 56px;
+    }
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: 180px minmax(0, 1fr); }
+    }
+
+    /* =========================================================
+       4. COMPONENTS
+       ========================================================= */
+
+    /* Shared small labels */
+    .mono-label, .margin-label {
+      font-family: var(--mono);
+      font-size: .75rem;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+    }
+    .margin-label { display: flex; gap: 12px; align-items: baseline; padding-top: .35em; }
+    .idx { color: var(--accent); font-weight: 500; }
+
+    /* Hairline rule that draws in */
+    .rule {
+      display: block;
+      height: 1px;
+      background: var(--rule-strong);
+      transform-origin: left center;
+    }
+
+    /* Scroll progress, fixed at top */
+    .progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 2px;
+      background: var(--accent);
+      transform-origin: left center;
+      transform: scaleX(var(--page, 0));
+      z-index: 20;
+      display: none;
+    }
+    .js .progress { display: block; }
+
+    /* Header */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 72px;
+    }
+    .brand {
+      font-family: var(--serif);
+      font-size: 1.125rem;
+      font-variation-settings: "opsz" 24;
+      text-decoration: none;
+      letter-spacing: -.01em;
+      padding-block: 12px;
+    }
+    .header-link {
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 0;
+      background: linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 1px no-repeat;
+      transition: background-size .4s var(--ease);
+    }
+    .header-link:hover { background-size: 100% 1px; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      min-height: calc(100svh - 72px);
+      align-content: center;
+      padding-block: clamp(40px, 8vh, 96px) clamp(32px, 6vh, 72px);
+    }
+    .hero-body { display: grid; gap: 28px; }
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: .8125rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .headline {
+      font-family: var(--serif);
+      font-weight: 350;
+      font-variation-settings: "opsz" 144;
+      font-size: clamp(2.3rem, 8.4vw, 6.6rem);
+      line-height: 1.02;
+      letter-spacing: -.025em;
+      max-width: 17ch;
+    }
+    .headline .line { display: block; }
+    .headline em { font-style: italic; color: var(--accent); font-weight: 330; }
+    .hero-sub {
+      max-width: 44ch;
+      font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 52px;
+      padding: 0 24px;
+      border: 1px solid var(--ink);
+      border-radius: 2px;
+      font-family: var(--sans);
+      font-size: .9375rem;
+      font-weight: 500;
+      letter-spacing: .005em;
+      text-decoration: none;
+      transition: background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+    }
+    .btn .arrow { font-family: var(--mono); transition: transform .35s var(--ease); }
+    .btn:hover .arrow { transform: translateX(4px); }
+    .btn--primary { background: var(--ink); color: var(--paper); }
+    .btn--primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn--ghost { background: transparent; color: var(--ink); }
+    .btn--ghost:hover { background: var(--ink); color: var(--paper); }
+    @media (max-width: 479px) { .btn { flex: 1 1 100%; } }
+
+    .hero-foot {
+      grid-column: 1 / -1;
+      display: grid;
+      gap: 16px;
+      margin-top: clamp(40px, 8vh, 88px);
+    }
+    .hero-foot-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .hint { display: inline-flex; align-items: center; gap: 12px; }
+    .hint-line {
+      width: 1px; height: 28px;
+      background: var(--ink);
+      transform-origin: top center;
+      animation: hint 2.2s var(--ease) infinite;
+    }
+    @keyframes hint {
+      0% { transform: scaleY(0); opacity: 1; }
+      60% { transform: scaleY(1); opacity: 1; }
+      100% { transform: scaleY(1); opacity: 0; }
+    }
+
+    /* ---------- Parties (two-sided ledger) ---------- */
+    .scrolly { position: relative; }
+    .scrolly-pin { padding-block: var(--section); }
+
+    .parties {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+      padding-left: 44px;           /* room for vertical flow track on mobile */
+    }
+    .party { display: grid; gap: 10px; transition: opacity .6s var(--ease); }
+    .party-title {
+      font-family: var(--serif);
+      font-weight: 350;
+      font-variation-settings: "opsz" 144;
+      font-size: clamp(2.25rem, 6vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: -.02em;
+    }
+    .party-desc { font-size: clamp(1.0625rem, 1.4vw, 1.25rem); color: var(--ink-2); }
+
+    .checkout {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 16px;
+      padding-block: 8px;
+    }
+    .checkout::before {              /* the Checkout line (horizontal on mobile) */
+      content: "";
+      position: absolute;
+      left: -44px; right: 0; top: 50%;
+      height: 1px;
+      background: var(--rule-strong);
+    }
+    .checkout-pill {
+      position: relative;
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      transition: background-color .4s var(--ease), color .4s var(--ease);
+    }
+    .status {
+      position: relative;
+      background: var(--paper);
+      padding: 2px 8px;
+    }
+    .status b { font-weight: 500; color: var(--ink); }
+
+    /* Flow track + travelling transaction marker */
+    .flow {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 24px;
+    }
+    .track { position: absolute; left: 11px; top: 0; bottom: 0; width: 1px; background: var(--rule-strong); }
+    .track-fill {
+      position: absolute; inset: 0;
+      background: var(--accent);
+      transform-origin: top center;
+      transform: scaleY(var(--p, 0));
+    }
+    .node {
+      position: absolute;
+      left: 11.5px;
+      width: 7px; height: 7px;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .node--start { top: 0; }
+    .node--mid { top: 50%; display: none; }
+    .node--end { top: 100%; }
+    .marker {
+      position: absolute;
+      left: 11.5px; top: 0;
+      width: 30px; height: 30px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--paper);
+      font-family: var(--mono);
+      font-size: .875rem;
+      font-weight: 500;
+      box-shadow: 0 0 0 5px var(--paper);
+      transform: translate(-50%, -50%);
+      will-change: transform;
+      z-index: 2;
+    }
+
+    /* Dim inactive parties only when JS drives the stages */
+    .js .party { opacity: .38; }
+    .js .scrolly[data-stage="consumer"] .party--consumer,
+    .js .scrolly[data-stage="merchant"] .party--merchant { opacity: 1; }
+    .js .scrolly[data-stage="checkout"] .checkout-pill { background: var(--ink); color: var(--paper); }
+    .js .scrolly[data-stage="merchant"] .checkout-pill { border-color: var(--accent); color: var(--accent); }
+
+    @media (min-width: 900px) {
+      .parties {
+        padding-left: 0;
+        grid-template-columns: minmax(0, 1fr) minmax(150px, 200px) minmax(0, 1fr);
+        grid-template-rows: auto 72px;
+        gap: 0;
+      }
+      .party--consumer { grid-column: 1; grid-row: 1; padding-right: 24px; }
+      .party--merchant { grid-column: 3; grid-row: 1; padding-left: 24px; text-align: right; justify-items: end; }
+      .checkout {
+        grid-column: 2; grid-row: 1 / 3;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: nowrap;
+        padding-block: 0 72px;
+      }
+      .checkout::before {            /* vertical Checkout line on desktop */
+        left: 50%; right: auto; top: -40px; bottom: 0;
+        width: 1px; height: auto;
+      }
+      .flow {
+        position: relative;
+        grid-column: 1 / -1; grid-row: 2;
+        width: auto; height: 72px;
+      }
+      .track { left: 0; right: 0; top: 50%; bottom: auto; width: auto; height: 1px; }
+      .track-fill { transform-origin: left center; transform: scaleX(var(--p, 0)); }
+      .node { top: 50%; }
+      .node--start { left: 0; top: 50%; }
+      .node--mid { left: 50%; display: block; }
+      .node--end { left: 100%; top: 50%; }
+      .marker { left: 0; top: 50%; }
+    }
+
+    /* Pin the parties section on large screens so scroll scrubs the transaction */
+    @media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+      .js .scrolly { height: 260vh; }
+      .js .scrolly-pin {
+        position: sticky; top: 0;
+        min-height: 100vh;
+        display: flex; align-items: center;
+        padding-block: 64px;
+      }
+    }
+
+    /* ---------- Statement (ledger entries) ---------- */
+    .ledger-section { padding-block: var(--section); }
+    .ledger { display: grid; gap: 8px; max-width: 880px; }
+    .ledger-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px 16px;
+      padding-bottom: 8px;
+    }
+    .ledger-head .rule { grid-column: 1 / -1; }
+    .entries { display: grid; }
+    .entry {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      padding-block: clamp(18px, 2.6vw, 28px);
+    }
+    .entry dt {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
+    }
+    .entry dt::after {               /* dotted leader */
+      content: "";
+      flex: 1;
+      min-width: 24px;
+      margin: 0 14px;
+      border-bottom: 1px dotted rgba(20, 20, 20, .45);
+      transform-origin: left center;
+      transform: translateY(-.28em);
+    }
+    .entry dd {
+      font-family: var(--mono);
+      font-size: clamp(1.125rem, 2vw, 1.5rem);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .entry dd .unit { color: var(--ink-2); font-size: .75em; margin-left: .25em; }
+
+    .entry--total {
+      position: relative;
+      margin-top: 12px;
+      padding-block: clamp(24px, 3vw, 36px);
+    }
+    .entry--total::before,            /* single rule above the total */
+    .entry--total::after {            /* double rule below the total */
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      transform-origin: left center;
+    }
+    .entry--total::before { top: 0; height: 1px; background: var(--ink); }
+    .entry--total::after { bottom: 0; height: 4px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .entry--total dt { font-family: var(--mono); font-size: .8125rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+    .entry--total dd {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 350;
+      font-variation-settings: "opsz" 144;
+      font-size: clamp(1.5rem, 3.6vw, 2.5rem);
+      letter-spacing: -.01em;
+      color: var(--accent);
+    }
+
+    /* ---------- Closing ---------- */
+    .closing { padding-block: 0 var(--section); }
+    .closing-body { display: grid; gap: 28px; }
+    .closing-title {
+      font-family: var(--serif);
+      font-weight: 350;
+      font-variation-settings: "opsz" 144;
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -.02em;
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer { padding-bottom: 32px; }
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px 24px;
+      padding-top: 20px;
+    }
+    .footer-row a { text-decoration: none; padding-block: 12px; }
+    .footer-row a:hover { color: var(--accent); }
+
+    /* =========================================================
+       5. MOTION (only applied when JS is present)
+       ========================================================= */
+
+    /* Hero: line-by-line headline reveal on load */
+    .js .headline .line { overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+    .js .headline .line > span {
+      display: inline-block;
+      transform: translateY(108%);
+      transition: transform 1s var(--ease);
+    }
+    .js .headline .line:nth-child(2) > span { transition-delay: .12s; }
+    .js .headline .line:nth-child(3) > span { transition-delay: .24s; }
+    .is-loaded .headline .line > span { transform: none; }
+
+    .js [data-load] {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+      transition-delay: var(--d, 0s);
+    }
+    .is-loaded [data-load] { opacity: 1; transform: none; }
+
+    /* Rules draw from left to right */
+    .js .rule { transform: scaleX(0); transition: transform 1.1s var(--ease); }
+    .js .is-in .rule, .js .rule.is-in { transform: scaleX(1); }
+
+    /* Where supported, scrub rules directly with scroll (CSS scroll-driven animations) */
+    @supports (animation-timeline: view()) {
+      .js [data-reveal] .rule {
+        transition: none;
+        animation: draw linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 40%;
+      }
+    }
+    @keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    /* Generic reveal */
+    .js [data-reveal].fade { opacity: 0; transform: translateY(16px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+    .js [data-reveal].fade.is-in { opacity: 1; transform: none; }
+
+    /* Ledger entries "print": label → leader → figure */
+    .js .entry dt { opacity: 0; transition: opacity .6s var(--ease); }
+    .js .entry dt::after { transform: translateY(-.28em) scaleX(0); transition: transform .9s var(--ease) .18s; }
+    .js .entry dd { opacity: 0; transform: translateY(6px); transition: opacity .6s var(--ease) .55s, transform .6s var(--ease) .55s; }
+    .js .entry.is-in dt { opacity: 1; }
+    .js .entry.is-in dt::after { transform: translateY(-.28em) scaleX(1); }
+    .js .entry.is-in dd { opacity: 1; transform: none; }
+
+    /* Closing the statement: rules above and below the total */
+    .js .entry--total::before, .js .entry--total::after { transform: scaleX(0); transition: transform 1s var(--ease); }
+    .js .entry--total::after { transition-delay: .9s; }
+    .js .entry--total.is-in::before, .js .entry--total.is-in::after { transform: scaleX(1); }
+
+    /* =========================================================
+       6. REDUCED MOTION — show final states, no movement
+       ========================================================= */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+      .hint-line { transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="site-header wrap">
+    <a class="brand" href="/">Siddharth Priya</a>
+    <a class="header-link" href="mailto:siddharthpriya002@hotmail.com">Get in touch</a>
+  </header>
+
+  <main>
+    <!-- ======================= HERO ======================= -->
+    <section class="hero wrap grid" aria-labelledby="headline">
+      <p class="margin-label" data-load style="--d:.05s"><span class="idx">00</span> Statement</p>
+
+      <div class="hero-body">
+        <p class="eyebrow" data-load>Senior Staff Product Designer</p>
+
+        <h1 class="headline" id="headline">
+          <span class="line"><span>I design payments</span></span>
+          <span class="line"><span>for <em>both sides</em></span></span>
+          <span class="line"><span>of the checkout.</span></span>
+        </h1>
+
+        <p class="hero-sub" data-load style="--d:.45s">
+          I lead design for Paytm Payment Gateway as an individual contributor, shaping experiences
+          for the consumers who pay and the merchants who get paid.
+        </p>
+
+        <div class="cta-row" data-load style="--d:.6s">
+          <a class="btn btn--primary" href="#profile">Explore my profile <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="mailto:siddharthpriya002@hotmail.com">Get in touch</a>
+        </div>
+      </div>
+
+      <div class="hero-foot" data-load style="--d:.8s">
+        <div data-reveal class="is-in"><span class="rule"></span></div>
+        <div class="hero-foot-row">
+          <span class="hint mono-label"><span class="hint-line" aria-hidden="true"></span>Scroll to reconcile</span>
+          <span class="mono-label">siddharthpriya.com</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= PARTIES ======================= -->
+    <section class="scrolly" id="parties" aria-labelledby="parties-label" data-stage="consumer">
+      <div class="scrolly-pin">
+        <div class="wrap grid">
+          <h2 class="margin-label" id="parties-label"><span class="idx">01</span> Parties</h2>
+
+          <div class="parties">
+            <article class="party party--consumer">
+              <p class="mono-label">Debit</p>
+              <h3 class="party-title">Consumer</h3>
+              <p class="party-desc">The people who pay.</p>
+            </article>
+
+            <div class="checkout">
+              <span class="checkout-pill">Checkout</span>
+              <span class="status mono-label">Status <b data-status>Initiated</b></span>
+            </div>
+
+            <article class="party party--merchant">
+              <p class="mono-label">Credit</p>
+              <h3 class="party-title">Merchant</h3>
+              <p class="party-desc">The businesses who get paid.</p>
+            </article>
+
+            <div class="flow" aria-hidden="true">
+              <div class="track"><span class="track-fill"></span></div>
+              <span class="node node--start"></span>
+              <span class="node node--mid"></span>
+              <span class="node node--end"></span>
+              <span class="marker" data-marker>₹</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= STATEMENT ======================= -->
+    <section class="ledger-section wrap grid" aria-labelledby="ledger-label">
+      <h2 class="margin-label" id="ledger-label"><span class="idx">02</span> Balance</h2>
+
+      <div class="ledger">
+        <div class="ledger-head" data-reveal>
+          <span class="mono-label">Entry</span>
+          <span class="mono-label">Amount</span>
+          <span class="rule"></span>
+        </div>
+
+        <dl class="entries">
+          <div class="entry" data-reveal>
+            <dt>Design experience</dt>
+            <dd><span data-count="7">7</span><span class="unit">yrs</span></dd>
+          </div>
+          <div class="entry" data-reveal>
+            <dt>Earlier IT professional experience</dt>
+            <dd><span data-count="3">3</span><span class="unit">yrs</span></dd>
+          </div>
+          <div class="entry entry--total" data-reveal>
+            <dt>Total experience</dt>
+            <dd><span data-count="10">10</span><span class="unit">yrs</span></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ======================= CLOSING ======================= -->
+    <section class="closing wrap grid" aria-labelledby="closing-label">
+      <h2 class="margin-label" id="closing-label"><span class="idx">03</span> Continued</h2>
+
+      <div class="closing-body fade" data-reveal>
+        <p class="closing-title">The full statement continues on my profile.</p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="#profile">Explore my profile <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="mailto:siddharthpriya002@hotmail.com">Get in touch</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <div data-reveal><span class="rule"></span></div>
+    <div class="footer-row mono-label">
+      <span>Siddharth Priya</span>
+      <a href="https://www.linkedin.com/in/siddharthpriya1/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <span>© <span data-year>2026</span></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* Footer year */
+      var y = document.querySelector('[data-year]');
+      if (y) y.textContent = new Date().getFullYear();
+
+      /* ---------- Hero load reveal ---------- */
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { root.classList.add('is-loaded'); });
+      });
+
+      /* ---------- Count-up figures ---------- */
+      var counters = document.querySelectorAll('[data-count]');
+      if (!reduce) counters.forEach(function (n) { n.textContent = '0'; });
+
+      function countUp(el) {
+        var target = parseInt(el.getAttribute('data-count'), 10);
+        var duration = 1000, delay = 550, start = null;
+        setTimeout(function () {
+          function step(t) {
+            if (!start) start = t;
+            var k = Math.min(1, (t - start) / duration);
+            var eased = 1 - Math.pow(1 - k, 3);
+            el.textContent = Math.round(eased * target);
+            if (k < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        }, delay);
+      }
+
+      /* ---------- Section reveals ---------- */
+      var revealEls = document.querySelectorAll('[data-reveal]');
+      function reveal(el) {
+        el.classList.add('is-in');
+        if (!reduce) el.querySelectorAll('[data-count]').forEach(countUp);
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        revealEls.forEach(function (el) { el.classList.add('is-in'); });
+        counters.forEach(function (n) { n.textContent = n.getAttribute('data-count'); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { reveal(entry.target); io.unobserve(entry.target); }
+          });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.2 });
+        revealEls.forEach(function (el) { io.observe(el); });
+      }
+
+      /* ---------- Scroll-driven transaction ---------- */
+      var scrolly = document.querySelector('.scrolly');
+      var flow = scrolly.querySelector('.flow');
+      var marker = scrolly.querySelector('[data-marker]');
+      var statusEl = scrolly.querySelector('[data-status]');
+      var pinMQ = window.matchMedia('(min-width: 900px) and (min-height: 640px)');
+      var horizMQ = window.matchMedia('(min-width: 900px)');
+      var lastStage = '';
+      var ticking = false;
+
+      var STAGES = {
+        consumer: { status: 'Initiated', glyph: '₹' },
+        checkout: { status: 'At checkout', glyph: '₹' },
+        merchant: { status: 'Settled', glyph: '✓' }
+      };
+
+      function update() {
+        ticking = false;
+        var vh = window.innerHeight;
+
+        /* Page progress bar */
+        var max = document.documentElement.scrollHeight - vh;
+        root.style.setProperty('--page', max > 0 ? (window.scrollY / max).toFixed(4) : 0);
+
+        /* Transaction progress through the Parties section */
+        var r = scrolly.getBoundingClientRect();
+        var p;
+        if (reduce) {
+          p = 1;
+        } else if (pinMQ.matches) {
+          p = -r.top / Math.max(1, r.height - vh);
+        } else {
+          p = (vh * 0.72 - r.top) / Math.max(1, r.height * 0.62);
+        }
+        p = Math.min(1, Math.max(0, p));
+        scrolly.style.setProperty('--p', p.toFixed(4));
+
+        if (horizMQ.matches) {
+          marker.style.transform = 'translate(' + (p * flow.clientWidth).toFixed(1) + 'px, 0) translate(-50%, -50%)';
+        } else {
+          marker.style.transform = 'translate(0, ' + (p * flow.clientHeight).toFixed(1) + 'px) translate(-50%, -50%)';
+        }
+
+        var stage = p < 0.4 ? 'consumer' : (p < 0.62 ? 'checkout' : 'merchant');
+        if (stage !== lastStage) {
+          lastStage = stage;
+          scrolly.setAttribute('data-stage', stage);
+          statusEl.textContent = STAGES[stage].status;
+          marker.textContent = STAGES[stage].glyph;
+        }
+      }
+
+      function onScroll() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    })();
+  </script>
+</body>
+</html>
