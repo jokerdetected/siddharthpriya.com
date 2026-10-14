@@ -537,7 +537,6 @@
 </head>
 
 <body>
-  <div class="progress" aria-hidden="true"></div>
 
   <header class="site-header wrap">
     <a class="brand" href="/">Siddharth Priya</a>
@@ -546,8 +545,7 @@
 
   <main>
     <!-- ======================= HERO ======================= -->
-    <section class="hero wrap grid" aria-labelledby="headline">
-      <p class="margin-label" data-load style="--d:.05s"><span class="idx">00</span> Statement</p>
+    <section class="hero wrap" aria-labelledby="headline">
 
       <div class="hero-body">
         <p class="eyebrow" data-load>Senior Staff Product Designer</p>
@@ -568,102 +566,9 @@
           <a class="btn btn--ghost" href="mailto:siddharthpriya002@hotmail.com">Get in touch</a>
         </div>
       </div>
-
-      <div class="hero-foot" data-load style="--d:.8s">
-        <div data-reveal class="is-in"><span class="rule"></span></div>
-        <div class="hero-foot-row">
-          <span class="hint mono-label" hidden><span class="hint-line" aria-hidden="true"></span>Scroll to reconcile</span>
-          <span class="mono-label">siddharthpriya.com</span>
-        </div>
-      </div>
     </section>
 
-    <!-- ======================= PARTIES ======================= -->
-    <section class="scrolly" id="parties" hidden aria-labelledby="parties-label" data-stage="consumer">
-      <div class="scrolly-pin">
-        <div class="wrap grid">
-          <h2 class="margin-label" id="parties-label"><span class="idx">01</span> Parties</h2>
-
-          <div class="parties">
-            <article class="party party--consumer">
-              <p class="mono-label">Debit</p>
-              <h3 class="party-title">Consumer</h3>
-              <p class="party-desc">The people who pay.</p>
-            </article>
-
-            <div class="checkout">
-              <span class="checkout-pill">Checkout</span>
-              <span class="status mono-label">Status <b data-status>Initiated</b></span>
-            </div>
-
-            <article class="party party--merchant">
-              <p class="mono-label">Credit</p>
-              <h3 class="party-title">Merchant</h3>
-              <p class="party-desc">The businesses who get paid.</p>
-            </article>
-
-            <div class="flow" aria-hidden="true">
-              <div class="track"><span class="track-fill"></span></div>
-              <span class="node node--start"></span>
-              <span class="node node--mid"></span>
-              <span class="node node--end"></span>
-              <span class="marker" data-marker>₹</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======================= STATEMENT ======================= -->
-    <section class="ledger-section wrap grid" hidden aria-labelledby="ledger-label">
-      <h2 class="margin-label" id="ledger-label"><span class="idx">02</span> Balance</h2>
-
-      <div class="ledger">
-        <div class="ledger-head" data-reveal>
-          <span class="mono-label">Entry</span>
-          <span class="mono-label">Amount</span>
-          <span class="rule"></span>
-        </div>
-
-        <dl class="entries">
-          <div class="entry" data-reveal>
-            <dt>Design experience</dt>
-            <dd><span data-count="7">7</span><span class="unit">yrs</span></dd>
-          </div>
-          <div class="entry" data-reveal>
-            <dt>Earlier IT professional experience</dt>
-            <dd><span data-count="3">3</span><span class="unit">yrs</span></dd>
-          </div>
-          <div class="entry entry--total" data-reveal>
-            <dt>Total experience</dt>
-            <dd><span data-count="10">10</span><span class="unit">yrs</span></dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
-    <!-- ======================= CLOSING ======================= -->
-    <section class="closing wrap grid" hidden aria-labelledby="closing-label">
-      <h2 class="margin-label" id="closing-label"><span class="idx">03</span> Continued</h2>
-
-      <div class="closing-body fade" data-reveal>
-        <p class="closing-title">The full statement continues on my profile.</p>
-        <div class="cta-row">
-          <a class="btn btn--primary" href="#profile">Explore my profile <span class="arrow" aria-hidden="true">→</span></a>
-          <a class="btn btn--ghost" href="mailto:siddharthpriya002@hotmail.com">Get in touch</a>
-        </div>
-      </div>
-    </section>
   </main>
-
-  <footer class="site-footer wrap">
-    <div data-reveal><span class="rule"></span></div>
-    <div class="footer-row mono-label">
-      <span>Siddharth Priya</span>
-      <a href="https://www.linkedin.com/in/siddharthpriya1/" target="_blank" rel="noopener">LinkedIn ↗</a>
-      <span>© <span data-year>2026</span></span>
-    </div>
-  </footer>
 
   <script>
     (function () {
@@ -718,6 +623,7 @@
 
       /* ---------- Scroll-driven transaction ---------- */
       var scrolly = document.querySelector('.scrolly');
+      if (!scrolly) return;
       var flow = scrolly.querySelector('.flow');
       var marker = scrolly.querySelector('[data-marker]');
       var statusEl = scrolly.querySelector('[data-status]');
