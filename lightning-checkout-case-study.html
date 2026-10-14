@@ -70,21 +70,25 @@
     /* =========================================================
        3. HEADER
        ========================================================= */
-    .site-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
+    .site-header {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: 32px;
+      min-height: 72px; background: var(--paper);
+    }
     .brand { font-family: var(--serif); font-size: 1.125rem; font-variation-settings: "opsz" 24; font-weight: 400; color: var(--ink); text-decoration: none; letter-spacing: -.01em; padding-block: 12px; white-space: nowrap; }
-    .header-link { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); text-decoration: none; padding: 14px 0;
-      background: linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 1px no-repeat; transition: background-size .4s var(--ease); }
-    .header-link:hover { background-size: 100% 1px; color: var(--ink); }
 
-    /* Section links: a quiet sticky strip below the header, no rule */
-    .subnav { position: sticky; top: 0; z-index: 30; background: var(--paper); }
-    .nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+    /* Section links sit in the header: their own row on phones, beside the name on wide screens */
+    .nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; flex: 1 1 100%; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
     .nav::-webkit-scrollbar { display: none; }
     .nav a { flex: none; color: var(--ink-2); text-decoration: none; font-size: .875rem; font-weight: 500; padding: 10px 12px; border-bottom: 2px solid transparent; }
+    .nav a:first-child { padding-left: 0; }
     .nav a:hover { color: var(--ink); }
     .nav a[aria-current="true"] { color: var(--ink); border-bottom-color: var(--accent); }
-    .nav a:first-child { padding-left: 0; }
-    @media (min-width: 1000px) { .nav { margin-inline: 0; padding-inline: 0; } }
+    @media (min-width: 1280px) {
+      .sec { scroll-margin-top: 88px; }
+      .site-header { flex-wrap: nowrap; position: sticky; top: 0; z-index: 30; }
+      .nav { flex: 0 1 auto; justify-content: flex-end; margin-inline: 0; padding-inline: 0; }
+      .nav a:last-child { padding-right: 0; }
+    }
 
     /* =========================================================
        4. HERO
@@ -114,7 +118,7 @@
     /* =========================================================
        5. SECTIONS
        ========================================================= */
-    .sec { padding-block: var(--sec); border-top: 1px solid var(--rule); scroll-margin-top: 48px; }
+    .sec { padding-block: var(--sec); border-top: 1px solid var(--rule); scroll-margin-top: 16px; }
     .hero + .sec { margin-top: clamp(48px, 7vw, 96px); }
     .sec-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px 56px; }
     @media (min-width: 1000px) {
@@ -313,7 +317,7 @@
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
     @media print {
-      .subnav { position: static; }
+      .site-header { position: static; }
       .nav { display: none; }
       .sec { break-inside: avoid-page; }
       .rail, .strip, .scroll-x { overflow: visible; flex-wrap: wrap; }
@@ -325,10 +329,7 @@
 <body>
   <header class="site-header wrap">
     <a class="brand" href="index.html">Siddharth Priya</a>
-    <a class="header-link" href="https://www.linkedin.com/in/siddharthpriya1" target="_blank" rel="noopener">LinkedIn ↗</a>
-  </header>
-  <div class="subnav"><div class="wrap">
-      <nav class="nav" aria-label="Case study sections">
+    <nav class="nav" aria-label="Case study sections">
         <a href="#brief">Brief</a>
         <a href="#problem">Problem</a>
         <a href="#research">Research</a>
@@ -340,7 +341,7 @@
         <a href="#measure">Measuring</a>
         <a href="case-studies.html">All case studies</a>
       </nav>
-  </div></div>
+  </header>
 
   <main>
     <!-- ======================= HERO ======================= -->
@@ -898,7 +899,7 @@
   <footer class="site-footer">
     <div class="wrap foot">
       <p>Screens use sample merchant and customer data. Figures in the research sections come from the sources above, not from Paytm.</p>
-      <p class="links"><a href="/">Siddharth Priya</a> <a href="mailto:siddharthpriya002@hotmail.com">Get in touch</a> <a href="https://www.linkedin.com/in/siddharthpriya1/" rel="noopener">LinkedIn</a></p>
+      <p class="links"><a href="/">Siddharth Priya</a> <a href="mailto:siddharthpriya002@hotmail.com">Get in touch</a></p>
     </div>
   </footer>
 
