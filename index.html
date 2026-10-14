@@ -154,9 +154,12 @@
     .hero {
       min-height: calc(100svh - 72px);
       align-content: center;
-      padding-block: clamp(40px, 8vh, 96px) clamp(32px, 6vh, 72px);
+      padding-block: clamp(40px, 6vh, 72px) clamp(72px, 14vh, 160px);
     }
-    .hero-body { display: grid; gap: 28px; }
+    .hero-body { display: grid; }
+    .hero-body > .headline { margin-top: clamp(16px, 2vw, 24px); }   /* label sits close to what it labels */
+    .hero-body > .hero-sub { margin-top: clamp(24px, 3vw, 40px); }   /* headline to supporting text */
+    .hero-body > .cta-row  { margin-top: clamp(32px, 4vw, 48px); }   /* text to action */
     .eyebrow {
       font-family: var(--mono);
       font-size: .8125rem;
@@ -169,19 +172,19 @@
       font-weight: 350;
       font-variation-settings: "opsz" 144;
       font-size: clamp(2.3rem, 8.4vw, 6.6rem);
-      line-height: 1.02;
+      line-height: 1.08;
       letter-spacing: -.025em;
       max-width: 17ch;
     }
     .headline .line { display: block; }
     .headline em { font-style: italic; color: var(--accent); font-weight: 330; }
     .hero-sub {
-      max-width: 44ch;
+      max-width: 46ch;
       font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
       line-height: 1.6;
       color: var(--ink-2);
     }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
     .btn {
       display: inline-flex;
@@ -472,7 +475,7 @@
        ========================================================= */
 
     /* Hero: line-by-line headline reveal on load */
-    .js .headline .line { overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+    .js .headline .line { overflow: hidden; padding-bottom: .28em; margin-bottom: -.28em; }
     .js .headline .line > span {
       display: inline-block;
       transform: translateY(108%);
