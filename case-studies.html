@@ -55,6 +55,16 @@
     .tags { display: flex; flex-wrap: wrap; gap: 6px 16px; }
     .card h2 { font-family: var(--serif); font-weight: 400; font-variation-settings: "opsz" 72; font-size: clamp(1.625rem, 2.6vw, 2rem);
       line-height: 1.15; letter-spacing: -.015em; margin-top: 16px; transition: color .3s var(--ease); }
+    /* Hover hint: space is reserved so the card never jumps */
+    .card .cue {
+      margin-top: auto; padding-top: 24px;
+      font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
+      opacity: 0; transform: translateY(6px);
+      transition: opacity .35s var(--ease), transform .35s var(--ease);
+    }
+    .card .cue span { border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+    .card:hover .cue, .card:focus-visible .cue { opacity: 1; transform: none; }
+    @media (hover: none) { .card .cue { opacity: 1; transform: none; } }  /* touch screens can't hover */
     .card .desc { color: var(--ink-2); margin-top: 12px; font-size: .9688rem; line-height: 1.6; }
 
     footer .wrap { padding-bottom: 32px; }
@@ -81,6 +91,7 @@
           <p class="tags mono"><span>Checkout</span><span>Mobile web</span><span>Research</span></p>
           <h2>Lightning Checkout</h2>
           <p class="desc">An accelerated checkout merchants add to their storefront. Shoppers pay with a mobile number, a one-time code and a saved address. Brief, research, information architecture, journey map and design review.</p>
+          <p class="cue" aria-hidden="true"><span>Read case study</span></p>
         </a>
       </li>
     </ul>
