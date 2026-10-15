@@ -65,6 +65,12 @@
     .card .cue span { border-bottom: 1px solid currentColor; padding-bottom: 3px; }
     .card:hover .cue, .card:focus-visible .cue { opacity: 1; transform: none; }
     @media (hover: none) { .card .cue { opacity: 1; transform: none; } }  /* touch screens can't hover */
+    /* Not available yet: quieter, no hover, not a link */
+    .card.is-disabled { background: transparent; border: 1px dashed var(--rule-strong); cursor: default; user-select: none; }
+    .card.is-disabled:hover { border-color: var(--rule-strong); background: transparent; }
+    .card.is-disabled:hover h2 { color: inherit; }
+    .card.is-disabled .tags, .card.is-disabled h2, .card.is-disabled .desc { opacity: .5; }
+    .card .status { margin-top: auto; padding-top: 24px; font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
     .card .desc { color: var(--ink-2); margin-top: 12px; font-size: .9688rem; line-height: 1.6; }
 
     footer .wrap { padding-bottom: 32px; }
@@ -93,6 +99,22 @@
           <p class="desc">An accelerated checkout merchants add to their storefront. Shoppers pay with a mobile number, a one-time code and a saved address. Brief, research, information architecture, journey map and design review.</p>
           <p class="cue" aria-hidden="true"><span>Read case study</span></p>
         </a>
+      </li>
+      <li>
+        <div class="card is-disabled" aria-disabled="true">
+          <p class="tags mono"><span>Featured</span><span>Fintech</span></p>
+          <h2>Featured at Global Fintech Fest 2026</h2>
+          <p class="desc">A project featured at Global Fintech Fest 2026. The case study is being written.</p>
+          <p class="status">In progress</p>
+        </div>
+      </li>
+      <li>
+        <div class="card is-disabled" aria-disabled="true">
+          <p class="tags mono"><span>Featured</span><span>Fintech</span></p>
+          <h2>Featured at Global Fintech Fest 2026</h2>
+          <p class="desc">A project featured at Global Fintech Fest 2026. The case study is being written.</p>
+          <p class="status">In progress</p>
+        </div>
       </li>
     </ul>
   </main>
