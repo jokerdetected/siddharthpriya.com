@@ -86,14 +86,13 @@
     /* Lightning Checkout: entry and payment phones */
     .v-lc .back  { width: 30%; left: 24%; top: 10%; transform: rotate(-4deg); }
     .v-lc .front { width: 31%; left: 50%; top: 20%; transform: rotate(3deg); }
-    /* JS Checkout: phones side by side */
-    .v-jc .back  { width: 32%; left: 18%; top: 15%; transform: rotate(-2deg); }
-    .v-jc .front { width: 33%; right: 14%; top: 18%; transform: rotate(2deg); }
+    /* JS Checkout: the pop-over on a merchant page, cards behind, UPI QR in front */
+    .v-jc .back  { width: 60%; left: 3%;  top: 9%; }
+    .v-jc .front { width: 70%; right: -5%; bottom: -14%; }
     a.card:hover .v-pi .front { transform: translateY(-8px); }
     a.card:hover .v-lc .back  { transform: rotate(-5deg) translateY(-6px); }
     a.card:hover .v-lc .front { transform: rotate(4deg) translateY(-10px); }
-    a.card:hover .v-jc .back  { transform: rotate(-3deg) translateY(-6px); }
-    a.card:hover .v-jc .front { transform: rotate(3deg) translateY(-10px); }
+    a.card:hover .v-jc .front { transform: translateY(-8px); }
 
     /* in progress: skeleton screen that shimmers */
     .card.is-soon { background: linear-gradient(120deg, #FAF8F4, #F0ECE3); }
@@ -206,8 +205,8 @@
             </div>
           </div>
           <div class="card-visual v-jc" aria-hidden="true">
-            <img class="phone back" src="img/js-checkout/landing.webp" width="1057" height="605" alt="" loading="lazy">
-            <img class="phone front" src="img/js-checkout/success.webp" width="1057" height="605" alt="" loading="lazy">
+            <img class="tab back" src="img/js-checkout/card-cards.webp" width="1210" height="860" alt="" loading="lazy">
+            <img class="tab front" src="img/js-checkout/card-upi.webp" width="1210" height="860" alt="" loading="lazy">
           </div>
         </a>
       </li>
