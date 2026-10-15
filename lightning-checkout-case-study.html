@@ -717,7 +717,7 @@
               <div class="txt">
                 <h4>1. Identify with a mobile number, not an account</h4>
                 <p class="why"><b>Why.</b> Forced account creation made 18% of abandoners leave.<sup><a href="#s1">1</a></sup> A mobile number and OTP is a check Indian shoppers already know from banking and delivery apps. One field and one button leaves little to get wrong.</p>
-                <p class="cost"><b>Trade-off.</b> A shopper meets an OTP on each new site or device. Review finding 3 looks at skipping it.</p>
+                <p class="cost"><b>Trade-off.</b> A shopper meets an OTP on each new site or device. Review finding 2 looks at skipping it.</p>
               </div>
               <div class="pair">
                 <figure class="phone"><div class="shot s01" role="img" aria-label="Entry screen" style="aspect-ratio:376/812"></div></figure>
@@ -753,7 +753,7 @@
               <div class="txt">
                 <h4>4. Keep the new-address form short, and help fill it</h4>
                 <p class="why"><b>Why.</b> The average checkout has 11.3 fields and most sites need 8.<sup><a href="#s2">2</a></sup> This form has seven, with PIN code first so city and state can follow it.<sup><a href="#s3">3</a></sup> Typing a house number suggests saved addresses, and Save as lets a shopper label the result.</p>
-                <p class="cost"><b>Trade-off.</b> Auto-filled city and state can go unnoticed or be wrong, so they stay editable. Review findings 2 and 5 cover what I would tighten.</p>
+                <p class="cost"><b>Trade-off.</b> Auto-filled city and state can go unnoticed or be wrong, so they stay editable. Review findings 1 and 4 cover what I would tighten.</p>
               </div>
               <div class="pair">
                 <figure class="phone"><div class="shot s07" role="img" aria-label="Add new address form" style="aspect-ratio:376/812"></div></figure>
@@ -765,7 +765,7 @@
               <div class="txt">
                 <h4>5. Keep offers in view, but off the main path</h4>
                 <p class="why"><b>Why.</b> Shoppers who hunt for a code often leave to find one. An offer strip shows the count, one sheet holds everything, and an applied offer stays visible on every step. The promo field sits inside the sheet, which matches Baymard’s advice to hide it.<sup><a href="#s2">2</a></sup></p>
-                <p class="cost"><b>Trade-off.</b> Coupons and payment offers share a sheet but behave differently. Review finding 4 covers the confusion this can cause.</p>
+                <p class="cost"><b>Trade-off.</b> Coupons and payment offers share a sheet but behave differently. Review finding 3 covers the confusion this can cause.</p>
               </div>
               <div class="pair">
                 <figure class="phone"><div class="shot s09" role="img" aria-label="Offers sheet" style="aspect-ratio:376/812"></div></figure>
@@ -777,7 +777,7 @@
               <div class="txt">
                 <h4>6. Put preferred ways to pay first, and plan for failure</h4>
                 <p class="why"><b>Why.</b> Saved cards sit at the top with their cashback, UPI apps are one tap away, and the Pay button states the amount. When a payment fails, the sheet gives the reason in plain words and offers other methods. Card declines (10%) and thin method choice (9%) both cost sales.<sup><a href="#s1">1</a></sup></p>
-                <p class="cost"><b>Trade-off.</b> Offering cash on delivery as a retry saves the order but raises delivery risk. See review finding 7.</p>
+                <p class="cost"><b>Trade-off.</b> Offering cash on delivery as a retry saves the order but raises delivery risk. See review finding 6.</p>
               </div>
               <div class="pair">
                 <figure class="phone"><div class="shot s11" role="img" aria-label="UPI options" style="aspect-ratio:355/1024"></div></figure>
@@ -805,17 +805,13 @@
       <div class="wrap sec-grid">
         <h2 class="sec-title" id="review-t">What I would improve</h2>
         <div class="stack-lg">
-          <div class="stack prose">
-            <p>A self-review of the screens against Nielsen’s heuristics and the research above, ordered by how much each could cost. Items marked “verify” are things I read from the frames that I would confirm in the build.</p>
-          </div>
           <ol class="review">
-            <li><span><span class="sev med">Medium</span></span><div class="stack"><h4>1. An undeliverable address appears selected</h4><p>In the address list, the “Address not serviceable” card is greyed out but still has a checked radio, and it sits at the top. Clear the selection, list serviceable addresses first, say why it cannot be served, and offer “Change PIN code”.</p></div></li>
-            <li><span><span class="sev med">Medium</span></span><div class="stack"><h4>2. Suggestions may ignore the PIN code</h4><p>With city set to New Delhi, the suggestion list shows addresses in Bengaluru, Pune and Gurugram. Verify, then filter suggestions by the PIN and city entered, and keep typing manually possible. Baymard also warns that detected fields can go unnoticed, so add a visible confirmation when city and state fill in.<sup><a href="#s3">3</a></sup></p></div></li>
-            <li><span><span class="sev med">Medium</span></span><div class="stack"><h4>3. An OTP on every new site or device</h4><p>Returning shoppers still verify each time. Offer “remember this device” with consent, so a recognised shopper can skip the code. Shopify says Shop Pay recognises many returning shoppers without any action, though that is its own claim.<sup><a href="#s4">4</a></sup></p></div></li>
-            <li><span><span class="sev low">Low</span></span><div class="stack"><h4>4. Two offers read as the same reward</h4><p>The offers sheet lists “Earn 270 Cashback Points” and “270 Points, 9x Cashback Points” close together. Merge them, or group payment offers by method and show each saving in rupees.</p></div></li>
-            <li><span><span class="sev low">Low</span></span><div class="stack"><h4>5. The address form asks for email without saying why</h4><p>Say what it is for, such as “For order updates”, or make it optional. Where a merchant needs it, ask after payment.</p></div></li>
-            <li><span><span class="sev low">Low</span></span><div class="stack"><h4>6. Small links and light grey text</h4><p>Change, Edit and Remove are small text links that may fall short of a 44-pixel touch target, and the greyed unserviceable card looks light. Verify, then pad the hit areas and check text contrast reaches 4.5:1.</p></div></li>
-            <li><span><span class="sev watch">Watch</span></span><div class="stack"><h4>7. Cash on delivery as a retry option</h4><p>It rescues orders when UPI fails, but Razorpay reports 25–30% of COD orders are returned against 2–3% for prepaid, though it gives no source.<sup><a href="#s7">7</a></sup> Make COD and its fee a merchant setting, and track returns by the way the order was recovered.</p></div></li>
+            <li><span><span class="sev med">Medium</span></span><div class="stack"><h4>1. Suggestions may ignore the PIN code</h4><p>With city set to New Delhi, the suggestion list shows addresses in Bengaluru, Pune and Gurugram. Verify, then filter suggestions by the PIN and city entered, and keep typing manually possible. Baymard also warns that detected fields can go unnoticed, so add a visible confirmation when city and state fill in.<sup><a href="#s3">3</a></sup></p></div></li>
+            <li><span><span class="sev med">Medium</span></span><div class="stack"><h4>2. An OTP on every new site or device</h4><p>Returning shoppers still verify each time. Offer “remember this device” with consent, so a recognised shopper can skip the code. Shopify says Shop Pay recognises many returning shoppers without any action, though that is its own claim.<sup><a href="#s4">4</a></sup></p></div></li>
+            <li><span><span class="sev low">Low</span></span><div class="stack"><h4>3. Two offers read as the same reward</h4><p>The offers sheet lists “Earn 270 Cashback Points” and “270 Points, 9x Cashback Points” close together. Merge them, or group payment offers by method and show each saving in rupees.</p></div></li>
+            <li><span><span class="sev low">Low</span></span><div class="stack"><h4>4. The address form asks for email without saying why</h4><p>Say what it is for, such as “For order updates”, or make it optional. Where a merchant needs it, ask after payment.</p></div></li>
+            <li><span><span class="sev low">Low</span></span><div class="stack"><h4>5. Small links and light grey text</h4><p>Change, Edit and Remove are small text links that may fall short of a 44-pixel touch target, and the greyed unserviceable card looks light. Verify, then pad the hit areas and check text contrast reaches 4.5:1.</p></div></li>
+            <li><span><span class="sev watch">Watch</span></span><div class="stack"><h4>6. Cash on delivery as a retry option</h4><p>It rescues orders when UPI fails, but Razorpay reports 25–30% of COD orders are returned against 2–3% for prepaid, though it gives no source.<sup><a href="#s7">7</a></sup> Make COD and its fee a merchant setting, and track returns by the way the order was recovered.</p></div></li>
           </ol>
         </div>
       </div>
@@ -863,7 +859,7 @@
           <div class="stack">
             <h3>Next steps</h3>
             <ul class="hmw">
-              <li>Fix the seven review findings, starting with the address selection.</li>
+              <li>Fix the six review findings.</li>
               <li>Run the usability tests and revise the journey map with what I hear.</li>
               <li>Design “remember this device” so recognised shoppers can skip the OTP.</li>
               <li>Agree the funnel events with engineering before launch, so every step above can be measured on day one.</li>
