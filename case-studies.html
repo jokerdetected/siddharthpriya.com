@@ -80,6 +80,10 @@
     footer a { text-decoration: none; padding-block: 12px; }
     footer a:hover { color: var(--accent); }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+  
+    .gff-badge { display:flex; width:fit-content; align-items:center; gap:10px; margin-bottom:18px; padding:6px 12px 6px 8px; border:1px solid rgba(20,20,20,.14); border-radius:999px; background:#fff; }
+    .gff-badge img { width:64px; height:auto; display:block; }
+    .gff-badge span { font:500 .6875rem/1.2 "IBM Plex Mono", ui-monospace, monospace; letter-spacing:.06em; text-transform:uppercase; color:#2B2925; }
   </style>
 </head>
 <body>
@@ -107,9 +111,10 @@
       </li>
       <li>
         <a class="card" href="pi-business-ads-case-study.html">
-          <p class="tags mono"><span>Featured at GFF 2026</span><span>AI</span><span>Research</span></p>
-          <h2>Pi Business Ads</h2>
-          <p class="desc">A chat that lets any small business owner create an AI-made ad in seven answers and receive it on WhatsApp. Brief, research, information architecture, journey map and design review.</p>
+          <p class="gff-badge"><img src="img/pi-business-ads/gff-2026.webp" width="326" height="190" alt="Global Fintech Fest 2026"><span>Featured at<br>GFF 2026</span></p>
+          <p class="tags mono"><span>AI</span><span>Small business</span><span>Research</span></p>
+          <h2>Pi Business Ads: AI that makes an ad in seven answers</h2>
+          <p class="desc">A guided chat for shop owners with no designer. Pi writes the ad, shows it as a Facebook post and sends it to their WhatsApp. Brief, research, information architecture, journey map and design review.</p>
           <p class="cue" aria-hidden="true"><span>Read case study</span></p>
         </a>
       </li>
