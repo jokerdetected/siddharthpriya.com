@@ -33,6 +33,8 @@
 
     .site-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
     .brand { font-family: var(--serif); font-size: 1.125rem; font-variation-settings: "opsz" 24; text-decoration: none; letter-spacing: -.01em; padding-block: 12px; }
+    .header-links { display: flex; align-items: center; gap: 8px 28px; white-space: nowrap; }
+    @media (max-width: 480px) { .header-links { gap: 12px; } .header-link { letter-spacing: .04em !important; font-size: .625rem !important; } .site-header .brand { white-space: nowrap; } }
     .header-link { font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; padding: 14px 0;
       background: linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 1px no-repeat; transition: background-size .4s var(--ease); }
     .header-link:hover { background-size: 100% 1px; }
@@ -83,7 +85,10 @@
 <body>
   <header class="site-header wrap">
     <a class="brand" href="index.html">Siddharth Priya</a>
-    <a class="header-link" href="https://www.linkedin.com/in/siddharthpriya1" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <div class="header-links">
+      <a class="header-link" href="Siddharth-Priya-Resume.pdf" download>Download resume</a>
+      <a class="header-link" href="https://www.linkedin.com/in/siddharthpriya1" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
   </header>
 
   <main class="wrap">
