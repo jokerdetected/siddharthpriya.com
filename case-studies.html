@@ -49,7 +49,7 @@
        Case study cards: text left, product visual right.
        One column of wide cards; stacks on phones.
        ========================================================= */
-    .cards { display: grid; gap: clamp(40px, 5vw, 56px); margin-bottom: clamp(72px, 12vw, 160px); }
+    .cards { display: grid; gap: clamp(36px, 4vw, 48px); margin-bottom: clamp(72px, 12vw, 160px); }
     .cards > li { position: relative; }
     .card {
       --tint-a: #F1EEE7; --tint-b: #FAF8F4; --hue: var(--accent);
@@ -66,22 +66,22 @@
 
     .card-text { order: 2; display: flex; flex-direction: column; padding: 28px 24px 28px; }
     .card-eyebrow { font-family: var(--mono); font-size: .6875rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
-    .card-title { font-family: var(--serif); font-weight: 400; font-variation-settings: "opsz" 144; font-size: clamp(2rem, 3.4vw, 2.875rem); line-height: 1.04; letter-spacing: -.02em; margin-top: 14px; color: var(--hue); }
+    .card-title { font-family: var(--serif); font-weight: 400; font-variation-settings: "opsz" 144; font-size: clamp(1.75rem, 2.8vw, 2.375rem); line-height: 1.06; letter-spacing: -.02em; margin-top: 14px; color: var(--hue); }
     .card-title .sub { display: block; font-style: italic; font-weight: 300; color: var(--ink); }
-    .card-desc { margin-top: 16px; color: var(--ink-2); font-size: .9688rem; line-height: 1.6; max-width: 42ch; }
-    .card-foot { margin-top: auto; padding-top: 32px; }
+    .card-desc { margin-top: 14px; color: var(--ink-2); font-size: .9688rem; line-height: 1.6; max-width: 42ch; }
+    .card-foot { margin-top: auto; padding-top: 24px; }
     .card-cta { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--hue); }
     .card-cta i { font-style: normal; transition: transform .45s var(--ease); }
     a.card:hover .card-cta i, a.card:focus-visible .card-cta i { transform: translateX(6px); }
 
     /* product visual */
-    .card-visual { position: relative; order: 1; height: clamp(260px, 72vw, 340px); overflow: hidden; }
+    .card-visual { position: relative; order: 1; height: clamp(230px, 62vw, 300px); overflow: hidden; }
     .card-visual img { position: absolute; display: block; height: auto; transition: transform .8s var(--ease); }
     .card-visual .tab { border-radius: 12px; box-shadow: 0 2px 6px rgba(20,20,20,.08), 0 24px 48px -20px rgba(20,20,20,.35); }
     .card-visual .phone { border: 5px solid #141414; border-radius: 26px; background: #141414; box-shadow: 0 24px 48px -20px rgba(20,20,20,.45); }
     /* Pi Business Ads: landing behind, ad ready in front */
-    .v-pi .back  { width: 70%; left: 6%;  top: 12%; }
-    .v-pi .front { width: 74%; right: -6%; bottom: -8%; }
+    .v-pi .back  { width: 62%; left: 4%;  top: 12%; }
+    .v-pi .front { width: 64%; right: -4%; bottom: -12%; }
     /* Lightning Checkout: entry and payment phones */
     .v-lc .back  { width: 30%; left: 24%; top: 10%; transform: rotate(-4deg); }
     .v-lc .front { width: 31%; left: 50%; top: 20%; transform: rotate(3deg); }
@@ -103,9 +103,9 @@
     @keyframes shimmer { to { background-position: -200% 0; } }
 
     @media (min-width: 820px) {
-      .card { grid-template-columns: minmax(0, 44fr) minmax(0, 56fr); min-height: 400px; }
-      .card-text { order: 0; padding: clamp(32px, 4vw, 52px); }
-      .card-visual { order: 0; height: auto; min-height: 400px; }
+      .card { grid-template-columns: minmax(0, 44fr) minmax(0, 56fr); min-height: 340px; }
+      .card-text { order: 0; padding: clamp(28px, 3.2vw, 44px); }
+      .card-visual { order: 0; height: auto; min-height: 340px; }
       .v-lc .back  { width: 27%; left: 20%; top: 12%; }
       .v-lc .front { width: 28%; left: 50%; top: 22%; }
       .skeleton { width: 30%; top: 14%; }
