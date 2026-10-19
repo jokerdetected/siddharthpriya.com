@@ -43,92 +43,104 @@
 
   doc.classList.add('sp-locked');
 
-  /* ---------- Guilloché: banknote-style engraved line work, drawn as SVG ---------- */
-  function guilloche(vw, vh) {
-    var H = 1000, W = Math.max(600, Math.round(H * vw / vh)), cx = W / 2, cy = H / 2, TAU = Math.PI * 2;
-    var groups = {}, order = [];
-    function add(g, d) { if (!groups[g]) { groups[g] = []; order.push(g); } groups[g].push(d); }
-    function f(n) { return Math.round(n * 10) / 10; }
-    function closed(fn, steps) {
-      var d = '';
-      for (var k = 0; k <= steps; k++) { var p = fn(k / steps * TAU); d += (k ? 'L' : 'M') + f(p[0]) + ' ' + f(p[1]); }
-      return d + 'Z';
-    }
-    function ring(g, R, A, n, ph, steps) {
-      add(g, closed(function (t) { var r = R + A * Math.sin(n * t + ph); return [cx + r * Math.cos(t), cy + r * Math.sin(t)]; }, steps));
-    }
-    /* the seal around the panel: two families of waves crossing into a lattice */
-    for (var i = 0; i < 24; i++) {
-      var R = 286 + i * 6.6;
-      ring('seal', R, 13, 24, i * .3, 264);
-      ring('seal', R, 13, 24, Math.PI - i * .3, 264);
-    }
-    ring('edge', 276, 0, 0, 0, 240); ring('edge', 272, 0, 0, 0, 240);
-    ring('edge', 452, 0, 0, 0, 300); ring('edge', 456, 0, 0, 0, 300);
-    /* a finer outer lace */
-    for (i = 0; i < 12; i++) {
-      var R2 = 478 + i * 8;
-      ring('lace', R2, 6, 72, i * .5, 400);
-      ring('lace', R2, 6, 72, Math.PI - i * .5, 400);
-    }
-    ring('edge', 574, 0, 0, 0, 360);
-    /* a spirograph rosette at the centre, seen frosted through the glass */
-    for (i = 0; i < 6; i++) (function (i) {
-      var a = 150, b = 58 + i * 9, k = 23, rot = i * .045;
-      add('rose', closed(function (t) {
-        var x = a * Math.cos(t) + b * Math.cos(k * t), y = a * Math.sin(t) - b * Math.sin(k * t);
-        return [cx + x * Math.cos(rot) - y * Math.sin(rot), cy + x * Math.sin(rot) + y * Math.cos(rot)];
-      }, 760));
-    })(i);
-    /* woven security ribbons along the top and bottom edges */
-    function ribbon(y0) {
-      for (var j = 0; j < 10; j++) [1, -1].forEach(function (dir) {
-        var d = '';
-        for (var x = -10; x <= W + 10; x += 6) {
-          var y = y0 + 12 * Math.sin(x / 30 + dir * j * .42);
-          d += (x === -10 ? 'M' : 'L') + f(x) + ' ' + f(y);
-        }
-        add('ribbon', d);
-      });
-      add('edge', 'M-10 ' + (y0 - 18) + 'H' + (W + 10));
-      add('edge', 'M-10 ' + (y0 + 18) + 'H' + (W + 10));
-    }
-    ribbon(46); ribbon(H - 46);
-    /* small rosettes tucked into the corners */
-    [[0, 0], [W, 0], [0, H], [W, H]].forEach(function (c) {
-      for (var j = 0; j < 8; j++) [1, -1].forEach(function (dir) {
-        var Rc = 130 + j * 8;
-        add('corner', closed(function (t) { var r = Rc + 7 * Math.sin(16 * t + dir * j * .5); return [c[0] + r * Math.cos(t), c[1] + r * Math.sin(t)]; }, 200));
-      });
-    });
-
-    /* silver in several tints and shades: polished bands across the seal, softer lace, quiet corners */
-    var INK = {
-      seal:   { s: 'url(#sv-seal)', w: .75 },
-      edge:   { s: '#A4A9B2', w: .9 },
-      lace:   { s: 'url(#sv-lace)', w: .6 },
-      rose:   { s: '#B4B9C1', w: .6 },
-      ribbon: { s: 'url(#sv-rib)', w: .6 },
-      corner: { s: '#CDD0D6', w: .6 }
-    };
-    var defs =
-      '<defs>' +
-      '<linearGradient id="sv-seal" gradientUnits="userSpaceOnUse" x1="' + (cx - 460) + '" y1="' + (cy - 460) + '" x2="' + (cx + 460) + '" y2="' + (cy + 460) + '">' +
-      '<stop offset="0" stop-color="#9DA3AD"/><stop offset=".22" stop-color="#D3D6DC"/><stop offset=".42" stop-color="#AEB3BC"/><stop offset=".6" stop-color="#DDDFE4"/><stop offset=".8" stop-color="#A8ADB6"/><stop offset="1" stop-color="#C9CCD2"/></linearGradient>' +
-      '<linearGradient id="sv-lace" gradientUnits="userSpaceOnUse" x1="' + (cx + 600) + '" y1="' + (cy - 600) + '" x2="' + (cx - 600) + '" y2="' + (cy + 600) + '">' +
-      '<stop offset="0" stop-color="#C2C6CD"/><stop offset=".5" stop-color="#E0E2E6"/><stop offset="1" stop-color="#B9BDC5"/></linearGradient>' +
-      '<linearGradient id="sv-rib" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="' + W + '" y2="0">' +
-      '<stop offset="0" stop-color="#C6CAD0"/><stop offset=".3" stop-color="#ABB0B9"/><stop offset=".55" stop-color="#DCDEE3"/><stop offset=".8" stop-color="#B3B8C0"/><stop offset="1" stop-color="#D2D5DA"/></linearGradient>' +
-      '</defs>';
-    var head = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice">';
-    var colour = head + defs, mask = head;
-    order.forEach(function (g) {
-      var d = groups[g].join('');
-      colour += '<path fill="none" stroke="' + INK[g].s + '" stroke-width="' + INK[g].w + '" stroke-linejoin="round" d="' + d + '"/>';
-      mask += '<path fill="none" stroke="#000" stroke-width="' + INK[g].w + '" stroke-linejoin="round" d="' + d + '"/>';
-    });
-    return { colour: colour + '</svg>', mask: mask + '</svg>' };
+  /* ---------- Guilloché rosettes, drawn line by line ---------- */
+  var SVGNS = 'http://www.w3.org/2000/svg', TAU = Math.PI * 2;
+  /* silver with only a hint of hue */
+  var PALETTE = ['#8E9AAE', '#C4A4AE', '#9CB4A6', '#ACA6C6', '#C6B892', '#A2A6AE', '#7F8897', '#B7AFA4'];
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function rint(a, b) { return Math.floor(rnd(a, b + 1)); }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function f(n) { return Math.round(n * 10) / 10; }
+  function polar(rFn, steps) {
+    var d = '';
+    for (var k = 0; k <= steps; k++) { var t = k / steps * TAU, r = rFn(t); d += (k ? 'L' : 'M') + f(r * Math.cos(t)) + ' ' + f(r * Math.sin(t)); }
+    return d + 'Z';
   }
+  function param(xy, steps) {
+    var d = '';
+    for (var k = 0; k <= steps; k++) { var p = xy(k / steps * TAU); d += (k ? 'L' : 'M') + f(p[0]) + ' ' + f(p[1]); }
+    return d + 'Z';
+  }
+
+  /* the parts, taken from banknote rosettes */
+  function ring(R) { return [polar(function () { return R; }, 180)]; }
+  function scallops(R, A, n, lines, gap, ph) {            /* the multi-line scalloped border */
+    var out = [];
+    for (var k = 0; k < lines; k++) out.push(polar(function (t) { return R - k * gap + A * Math.sin(n * t + ph); }, n * 18));
+    return out;
+  }
+  function lattice(R0, R1, A, n, rings, step) {           /* two families of waves crossing into a mesh */
+    var out = [];
+    for (var i = 0; i < rings; i++) (function (i) {
+      var R = R0 + (R1 - R0) * i / (rings - 1);
+      out.push(polar(function (t) { return R + A * Math.sin(n * t + i * step); }, n * 12));
+      out.push(polar(function (t) { return R + A * Math.sin(n * t + Math.PI - i * step); }, n * 12));
+    })(i);
+    return out;
+  }
+  function loops(Rm, a, n, phases) {                      /* looped lace, like a spirograph band */
+    var out = [];
+    for (var p = 0; p < phases; p++) (function (p) {
+      var ph = p * TAU / phases / n;
+      out.push(param(function (t) { return [Rm * Math.cos(t) + a * Math.cos(n * (t + ph)), Rm * Math.sin(t) + a * Math.sin(n * (t + ph))]; }, n * 26));
+    })(p);
+    return out;
+  }
+  function petals(c, a, b, count) {                       /* a fan of ellipses that reads as a flower */
+    var out = [];
+    for (var k = 0; k < count; k++) (function (k) {
+      var rot = k * TAU / count, cs = Math.cos(rot), sn = Math.sin(rot);
+      out.push(param(function (s) { var x = c + a * Math.cos(s), y = b * Math.sin(s); return [x * cs - y * sn, x * sn + y * cs]; }, 72));
+    })(k);
+    return out;
+  }
+  function star(R, A, n, lines, gap) {                    /* a pointed ring */
+    var out = [];
+    for (var k = 0; k < lines; k++) out.push(polar(function (t) {
+      var u = (n * t / Math.PI) % 2; return R - k * gap + A * (2 * Math.abs(u - 1) - 1);
+    }, n * 10));
+    return out;
+  }
+  function waves(R1, R0, n, count) {                      /* small wavy circles at the heart */
+    var out = [];
+    for (var k = 0; k < count; k++) (function (k) {
+      var R = R1 - k * (R1 - R0) / count;
+      out.push(polar(function (t) { return R + R * .09 * Math.sin(n * t + k * .35); }, n * 14));
+    })(k);
+    return out;
+  }
+
+  /* four kinds of rosette, each made of parts in a few silver tints; outer parts draw first */
+  var RECIPES = [
+    function seal(c) { var n = rint(12, 16), m = rint(18, 26); return [
+      [scallops(476, 13, n, 5, 7, rnd(0, 6)), c[0], .8],
+      [ring(438).concat(ring(332)), c[0], .7],
+      [lattice(346, 424, 13, m, 14, .3), c[1], .8],
+      [loops(272, 36, 22, 4), c[2], .8],
+      [petals(112, 118, 44, 18), c[1], .7],
+      [waves(84, 24, n, 6), c[0], .8]
+    ]; },
+    function starRose(c) { var n = rint(9, 13); return [
+      [star(470, 34, n, 4, 9), c[0], .8],
+      [lattice(250, 390, 15, n * 2, 14, .26), c[1], .8],
+      [ring(236), c[0], .7],
+      [loops(178, 28, 20, 3), c[2], .8],
+      [waves(110, 30, n, 7), c[1], .8]
+    ]; },
+    function lace(c) { var n = rint(14, 18); return [
+      [scallops(478, 9, n, 3, 6, rnd(0, 6)), c[0], .8],
+      [loops(400, 54, 30, 5), c[1], .8],
+      [ring(330), c[0], .7],
+      [lattice(170, 310, 11, n, 13, .36), c[2], .8],
+      [petals(70, 64, 22, 16), c[0], .7]
+    ]; },
+    function bloom(c) { var n = rint(10, 14); return [
+      [scallops(474, 18, n, 4, 8, rnd(0, 6)), c[0], .8],
+      [petals(236, 214, 70, 30), c[1], .75],
+      [lattice(120, 220, 10, n, 12, .33), c[2], .8],
+      [waves(96, 40, n, 5), c[0], .8]
+    ]; }
+  ];
 
   var FONT = '-apple-system, BlinkMacSystemFont, "Inter Site", "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
   var css = document.createElement('style');
@@ -138,33 +150,9 @@
     'html.sp-locked body > *:not(#sp-gate) { visibility: hidden !important; }' +
     '#sp-gate { position: fixed; inset: 0; z-index: 2147483647; display: grid; place-items: center; padding: 24px 16px; overflow: hidden;' +
     '  background: #FFFFFF; color: #1D1D1F; font-family: ' + FONT + '; letter-spacing: -.011em; -webkit-font-smoothing: antialiased; color-scheme: light; }' +
-    /* the engraving in light silver */
-    '#sp-gate .g { position: absolute; inset: 0; pointer-events: none; }' +
-    '#sp-gate .g-base { background-size: cover; background-position: center; background-repeat: no-repeat; opacity: .72; }' +
-    /* the same lines, lit: only visible where the floating light falls */
-    '#sp-gate .g-lit { overflow: hidden;' +
-    '  -webkit-mask-size: cover; mask-size: cover; -webkit-mask-position: center; mask-position: center; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }' +
-    '#sp-gate .light { position: absolute; left: 0; top: 0; border-radius: 50%; will-change: transform; }' +
-    /* a glassy silver light: a bright core, a polished steel ring, then a soft cool-and-warm falloff */
-    '#sp-gate .l1 { width: 62vmax; height: 62vmax; margin: -31vmax 0 0 -31vmax;' +
-    '  background: radial-gradient(closest-side, rgba(255,255,255,1) 0%, rgba(250,251,253,.95) 6%, #7F8793 17%, #98A0AC 28%, rgba(176,183,194,.85) 40%, rgba(201,196,186,.5) 54%, rgba(214,219,227,.25) 68%, rgba(214,219,227,0) 84%);' +
-    '  animation: sp-float-1 180s ease-in-out infinite; }' +
-    '#sp-gate .l2 { width: 40vmax; height: 40vmax; margin: -20vmax 0 0 -20vmax; opacity: .55;' +
-    '  background: radial-gradient(closest-side, rgba(255,255,255,.95) 0%, #8C95A3 22%, rgba(170,178,190,.6) 45%, rgba(190,196,206,0) 80%);' +
-    '  animation: sp-float-2 140s ease-in-out infinite; }' +
-    '@keyframes sp-float-1 {' +
-    '  0%   { transform: translate(24vw, 28vh); }' +
-    '  20%  { transform: translate(70vw, 16vh); }' +
-    '  40%  { transform: translate(84vw, 60vh); }' +
-    '  60%  { transform: translate(56vw, 86vh); }' +
-    '  80%  { transform: translate(16vw, 70vh); }' +
-    '  100% { transform: translate(24vw, 28vh); } }' +
-    '@keyframes sp-float-2 {' +
-    '  0%   { transform: translate(80vw, 82vh); }' +
-    '  25%  { transform: translate(30vw, 90vh); }' +
-    '  50%  { transform: translate(12vw, 30vh); }' +
-    '  75%  { transform: translate(60vw, 10vh); }' +
-    '  100% { transform: translate(80vw, 82vh); } }' +
+    '#sp-gate .bed { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }' +
+    '#sp-gate .ros { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; will-change: transform, opacity; }' +
+    '#sp-gate .ros path { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; shape-rendering: geometricPrecision; }' +
     /* the glass panel, light again */
     '#sp-gate form { position: relative; width: 100%; max-width: 400px; padding: 40px 32px 32px; border-radius: 32px; text-align: center;' +
     '  background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%);' +
@@ -196,7 +184,7 @@
     '#sp-gate.out { transition: opacity .6s ease; opacity: 0; }' +
     '#sp-gate.out form { transform: scale(1.04); opacity: 0; }' +
     '@media (max-width: 640px) { #sp-gate form { padding: 32px 22px 24px; border-radius: 28px; } #sp-gate h1 { font-size: 28px; } }' +
-    '@media (prefers-reduced-motion: reduce) { #sp-gate .light, #sp-gate .shake { animation: none; } #sp-gate .l1 { transform: translate(28vw, 26vh); } #sp-gate .l2 { transform: translate(76vw, 80vh); } #sp-gate form, #sp-gate.out { transition: none; } }';
+    '@media (prefers-reduced-motion: reduce) { #sp-gate .shake { animation: none; } #sp-gate form, #sp-gate.out { transition: none; } }';
   (document.head || doc).appendChild(css);
 
   var ARROW = '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h10M9.5 4.5 14 9l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -208,27 +196,11 @@
     g.setAttribute('aria-modal', 'true');
     g.setAttribute('aria-labelledby', 'sp-gate-t');
 
-    var base = document.createElement('div'), lit = document.createElement('div');
-    base.className = 'g g-base'; lit.className = 'g g-lit';
-    base.setAttribute('aria-hidden', 'true'); lit.setAttribute('aria-hidden', 'true');
-    var urls = [];
-    function toUrl(svg) {
-      try { var u = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' })); urls.push(u); return 'url("' + u + '")'; }
-      catch (e) { return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")'; }
-    }
-    function paint() {
-      var old = urls; urls = [];
-      var art = guilloche(window.innerWidth || 1440, window.innerHeight || 900);
-      base.style.backgroundImage = toUrl(art.colour);
-      var m = toUrl(art.mask);
-      lit.style.webkitMaskImage = m; lit.style.maskImage = m;
-      setTimeout(function () { old.forEach(function (u) { try { URL.revokeObjectURL(u); } catch (e) {} }); }, 1000);
-    }
-    paint();
-    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(paint, 250); });
-    lit.innerHTML = '<div class="light l1"></div><div class="light l2"></div>';
-    g.appendChild(base); g.appendChild(lit);
-
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches, reduceMotion = reduce;
+    var field = document.createElement('div');
+    field.className = 'bed';
+    field.setAttribute('aria-hidden', 'true');
+    g.appendChild(field);
     var box = document.createElement('div');
     box.innerHTML =
       '<form novalidate>' +
@@ -247,8 +219,118 @@
     g.appendChild(form);
     document.body.appendChild(g);
 
+    /* ---------- life cycle: draw, float, fade, replace ---------- */
+    var stopped = false, timers = [], alive = [];
+    function later(fn, ms) { var t = setTimeout(fn, ms); timers.push(t); return t; }
+    function slots() {
+      var w = window.innerWidth, h = window.innerHeight;
+      if (w >= h) {
+        var S = Math.min(w, h);
+        return [[.15, .30, .66], [.85, .70, .66], [.82, .22, .5], [.18, .78, .5], [.03, .06, .56], [.97, .94, .56],
+                [.97, .07, .42], [.03, .93, .42], [.34, .1, .3], [.66, .9, .3]].map(function (s) { return [s[0] * w, s[1] * h, s[2] * S]; });
+      }
+      var S2 = w;   /* phones: rosettes sit above and below the panel */
+      return [[.18, .12, 1.05], [.86, .2, .85], [.5, .02, .7], [.14, .88, .95], [.84, .9, 1.1], [.5, .99, .7]].map(function (s) { return [s[0] * w, s[1] * h, s[2] * S2]; });
+    }
+    function build(size) {
+      var svg = document.createElementNS(SVGNS, 'svg');
+      svg.setAttribute('class', 'ros');
+      svg.setAttribute('viewBox', '-500 -500 1000 1000');
+      svg.setAttribute('width', size); svg.setAttribute('height', size);
+      var cols = shuffle(PALETTE).slice(0, 3);
+      var parts = RECIPES[Math.floor(Math.random() * RECIPES.length)](cols);
+      var paths = [];
+      parts.forEach(function (part, pi) {
+        var grp = document.createElementNS(SVGNS, 'g');
+        grp.setAttribute('stroke', part[1]);
+        grp.setAttribute('stroke-opacity', part[2]);
+        grp.setAttribute('stroke-width', size > 420 ? .65 : .55);
+        part[0].forEach(function (d, k) {
+          var p = document.createElementNS(SVGNS, 'path');
+          p.setAttribute('d', d);
+          p.setAttribute('pathLength', '1');
+          grp.appendChild(p);
+          paths.push([p, pi, k]);
+        });
+        svg.appendChild(grp);
+      });
+      return { svg: svg, paths: paths };
+    }
+    function spawn(still) {
+      if (stopped) return;
+      var max = window.innerWidth >= window.innerHeight ? 7 : 4;
+      if (!still && alive.filter(function (a) { return !a.fading; }).length >= max) return;
+      var all = slots(), taken = alive.map(function (a) { return a.slot; });
+      var free = all.map(function (s, i) { return i; }).filter(function (i) { return taken.indexOf(i) < 0; });
+      if (!free.length) return;
+      var si = free[0];
+      if (!still && alive.length) {
+        var scored = free.map(function (i) {
+          var d = Infinity;
+          alive.forEach(function (a) { var o = all[a.slot]; d = Math.min(d, Math.hypot(all[i][0] - o[0], all[i][1] - o[1])); });
+          return [i, d * rnd(.8, 1.2)];
+        }).sort(function (A, B) { return B[1] - A[1]; });
+        si = scored[0][0];
+      } else if (!still) {
+        si = free[Math.floor(Math.random() * free.length)];
+      }
+      var sl = all[si], size = Math.round(sl[2] * rnd(.88, 1.12));
+      var x = sl[0] + rnd(-.03, .03) * window.innerWidth, y = sl[1] + rnd(-.03, .03) * window.innerHeight;
+      var r = build(size), el = r.svg;
+      el.style.left = Math.round(x - size / 2) + 'px';
+      el.style.top = Math.round(y - size / 2) + 'px';
+      var a0 = rnd(0, 360);
+      el.style.transform = 'rotate(' + a0 + 'deg)';
+      field.appendChild(el);
+      var rec = { el: el, slot: si };
+      alive.push(rec);
+      if (still) return;
+
+      /* draw: outer parts first, each line spinning out a moment after the last */
+      r.paths.forEach(function (item) {
+        var p = item[0];
+        p.style.strokeDasharray = '1';
+        p.style.strokeDashoffset = '1';
+        var anim = p.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }],
+          { duration: rnd(5200, 8200), delay: item[1] * 1300 + item[2] * 70, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'forwards' });
+        anim.onfinish = function () { p.style.strokeDasharray = 'none'; p.style.strokeDashoffset = '0'; try { anim.cancel(); } catch (e) {} };
+      });
+      /* float: a slow turn and a small drift; it keeps going until it is retired */
+      var span = 180000, dir = Math.random() < .5 ? -1 : 1, turn = dir * rnd(34, 58);
+      var dx = rnd(-60, 60), dy = rnd(-44, 44);
+      var drift = el.animate([
+        { transform: 'translate(0px, 0px) rotate(' + a0 + 'deg)' },
+        { transform: 'translate(' + dx + 'px, ' + dy + 'px) rotate(' + (a0 + turn) + 'deg)' }
+      ], { duration: span, easing: 'linear', fill: 'forwards' });
+      rec.retire = function () {
+        if (rec.fading) return;
+        rec.fading = true;
+        var fade = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 11000, easing: 'ease-in-out', fill: 'forwards' });
+        fade.onfinish = function () {
+          try { drift.cancel(); } catch (e) {}
+          if (el.parentNode) el.parentNode.removeChild(el);
+          var i = alive.indexOf(rec); if (i > -1) alive.splice(i, 1);
+        };
+      };
+      drift.onfinish = rec.retire;
+    }
+    function cycle() {
+      if (stopped) return;
+      var max = window.innerWidth >= window.innerHeight ? 7 : 4;
+      var staying = alive.filter(function (a) { return !a.fading; });
+      if (staying.length >= max) staying[0].retire();
+      spawn(false);
+      later(cycle, rnd(9500, 12500));
+    }
+    if (reduceMotion) {
+      for (var q = 0; q < 6; q++) spawn(true);
+    } else {
+      [0, 1100, 2200, 3300, 4400].forEach(function (ms) { later(function () { spawn(false); }, ms); });
+      later(cycle, 11000);
+    }
+    function stopLife() { stopped = true; timers.forEach(clearTimeout); }
+
     var input = form.querySelector('input'), err = form.querySelector('.err');
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); }
 
     function toHash() {
@@ -257,6 +339,7 @@
       if (t) t.scrollIntoView();
     }
     function unlock() {
+      stopLife();
       remember();
       doc.classList.remove('sp-locked');
       toHash();
