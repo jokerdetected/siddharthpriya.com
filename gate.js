@@ -160,8 +160,9 @@
     '  transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .5s; }' +
     '@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) { #sp-gate form { background: rgba(255,255,255,.96); } }' +
     '@media (prefers-reduced-transparency: reduce) { #sp-gate form { background: #FFFFFF; } }' +
-    '#sp-gate .mono { width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%; display: grid; place-items: center; color: #1D1D1F; font-weight: 650; font-size: 22px; letter-spacing: -.02em;' +
-    '  background: linear-gradient(140deg, #FBFBFC 0%, #C6C9CF 38%, #F1EFEA 55%, #A2A6AD 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 .5px rgba(0,0,0,.12), 0 6px 16px -8px rgba(40,48,60,.5); }' +
+    '#sp-gate .mono { width: 88px; height: 88px; margin: 0 auto 16px; padding: 3px; border-radius: 50%;' +
+    '  background: linear-gradient(140deg, #FBFBFC 0%, #C6C9CF 38%, #F1EFEA 55%, #A2A6AD 100%); box-shadow: 0 10px 24px -12px rgba(40,48,60,.55); }' +
+    '#sp-gate .mono img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #E8E8ED; }' +
     '#sp-gate .name { font-size: 17px; font-weight: 600; margin: 0; }' +
     '#sp-gate h1 { font-size: 32px; line-height: 1.1; font-weight: 700; letter-spacing: -.03em; margin: 22px 0 10px; }' +
     '#sp-gate .note { font-size: 15px; line-height: 1.45; margin: 0 auto 26px; max-width: 30ch; }' +
@@ -204,7 +205,7 @@
     var box = document.createElement('div');
     box.innerHTML =
       '<form novalidate>' +
-      '<div class="mono" aria-hidden="true">SP</div>' +
+      '<div class="mono"><img src="img/sp-avatar.webp" width="160" height="160" alt="" decoding="async"></div>' +
       '<p class="name">Siddharth Priya</p>' +
       '<h1 id="sp-gate-t">Enter the password</h1>' +
       '<p class="note">You will find the password in my email or job application.</p>' +
