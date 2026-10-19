@@ -46,35 +46,36 @@
   /* ---------- Guilloché: banknote-style engraved line work, drawn as SVG ---------- */
   function guilloche(vw, vh) {
     var H = 1000, W = Math.max(600, Math.round(H * vw / vh)), cx = W / 2, cy = H / 2, TAU = Math.PI * 2;
-    var paths = [];
+    var groups = {}, order = [];
+    function add(g, d) { if (!groups[g]) { groups[g] = []; order.push(g); } groups[g].push(d); }
     function f(n) { return Math.round(n * 10) / 10; }
     function closed(fn, steps) {
       var d = '';
       for (var k = 0; k <= steps; k++) { var p = fn(k / steps * TAU); d += (k ? 'L' : 'M') + f(p[0]) + ' ' + f(p[1]); }
       return d + 'Z';
     }
-    function ring(R, A, n, ph, steps, extra) {
-      paths.push(closed(function (t) { var r = R + A * Math.sin(n * t + ph) + (extra ? extra(t) : 0); return [cx + r * Math.cos(t), cy + r * Math.sin(t)]; }, steps));
+    function ring(g, R, A, n, ph, steps) {
+      add(g, closed(function (t) { var r = R + A * Math.sin(n * t + ph); return [cx + r * Math.cos(t), cy + r * Math.sin(t)]; }, steps));
     }
     /* the seal around the panel: two families of waves crossing into a lattice */
     for (var i = 0; i < 24; i++) {
       var R = 286 + i * 6.6;
-      ring(R, 13, 24, i * .3, 264);
-      ring(R, 13, 24, Math.PI - i * .3, 264);
+      ring('seal', R, 13, 24, i * .3, 264);
+      ring('seal', R, 13, 24, Math.PI - i * .3, 264);
     }
-    ring(276, 0, 0, 0, 240); ring(272, 0, 0, 0, 240);
-    ring(452, 0, 0, 0, 300); ring(456, 0, 0, 0, 300);
+    ring('edge', 276, 0, 0, 0, 240); ring('edge', 272, 0, 0, 0, 240);
+    ring('edge', 452, 0, 0, 0, 300); ring('edge', 456, 0, 0, 0, 300);
     /* a finer outer lace */
     for (i = 0; i < 12; i++) {
       var R2 = 478 + i * 8;
-      ring(R2, 6, 72, i * .5, 400);
-      ring(R2, 6, 72, Math.PI - i * .5, 400);
+      ring('lace', R2, 6, 72, i * .5, 400);
+      ring('lace', R2, 6, 72, Math.PI - i * .5, 400);
     }
-    ring(574, 0, 0, 0, 360);
+    ring('edge', 574, 0, 0, 0, 360);
     /* a spirograph rosette at the centre, seen frosted through the glass */
     for (i = 0; i < 6; i++) (function (i) {
       var a = 150, b = 58 + i * 9, k = 23, rot = i * .045;
-      paths.push(closed(function (t) {
+      add('rose', closed(function (t) {
         var x = a * Math.cos(t) + b * Math.cos(k * t), y = a * Math.sin(t) - b * Math.sin(k * t);
         return [cx + x * Math.cos(rot) - y * Math.sin(rot), cy + x * Math.sin(rot) + y * Math.cos(rot)];
       }, 760));
@@ -84,88 +85,118 @@
       for (var j = 0; j < 10; j++) [1, -1].forEach(function (dir) {
         var d = '';
         for (var x = -10; x <= W + 10; x += 6) {
-          var y = y0 + 12 * Math.sin(x / 30 + dir * j * .42) ;
+          var y = y0 + 12 * Math.sin(x / 30 + dir * j * .42);
           d += (x === -10 ? 'M' : 'L') + f(x) + ' ' + f(y);
         }
-        paths.push(d);
+        add('ribbon', d);
       });
-      paths.push('M-10 ' + (y0 - 18) + 'H' + (W + 10), 'M-10 ' + (y0 + 18) + 'H' + (W + 10));
+      add('edge', 'M-10 ' + (y0 - 18) + 'H' + (W + 10));
+      add('edge', 'M-10 ' + (y0 + 18) + 'H' + (W + 10));
     }
     ribbon(46); ribbon(H - 46);
     /* small rosettes tucked into the corners */
     [[0, 0], [W, 0], [0, H], [W, H]].forEach(function (c) {
       for (var j = 0; j < 8; j++) [1, -1].forEach(function (dir) {
         var Rc = 130 + j * 8;
-        paths.push(closed(function (t) { var r = Rc + 7 * Math.sin(16 * t + dir * j * .5); return [c[0] + r * Math.cos(t), c[1] + r * Math.sin(t)]; }, 200));
+        add('corner', closed(function (t) { var r = Rc + 7 * Math.sin(16 * t + dir * j * .5); return [c[0] + r * Math.cos(t), c[1] + r * Math.sin(t)]; }, 200));
       });
     });
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice">' +
-      '<path fill="none" stroke="#000" stroke-width=".7" stroke-linejoin="round" d="' + paths.join('') + '"/></svg>';
-    return svg;
+
+    /* silver in several tints and shades: polished bands across the seal, softer lace, quiet corners */
+    var INK = {
+      seal:   { s: 'url(#sv-seal)', w: .75 },
+      edge:   { s: '#A4A9B2', w: .9 },
+      lace:   { s: 'url(#sv-lace)', w: .6 },
+      rose:   { s: '#B4B9C1', w: .6 },
+      ribbon: { s: 'url(#sv-rib)', w: .6 },
+      corner: { s: '#CDD0D6', w: .6 }
+    };
+    var defs =
+      '<defs>' +
+      '<linearGradient id="sv-seal" gradientUnits="userSpaceOnUse" x1="' + (cx - 460) + '" y1="' + (cy - 460) + '" x2="' + (cx + 460) + '" y2="' + (cy + 460) + '">' +
+      '<stop offset="0" stop-color="#9DA3AD"/><stop offset=".22" stop-color="#D3D6DC"/><stop offset=".42" stop-color="#AEB3BC"/><stop offset=".6" stop-color="#DDDFE4"/><stop offset=".8" stop-color="#A8ADB6"/><stop offset="1" stop-color="#C9CCD2"/></linearGradient>' +
+      '<linearGradient id="sv-lace" gradientUnits="userSpaceOnUse" x1="' + (cx + 600) + '" y1="' + (cy - 600) + '" x2="' + (cx - 600) + '" y2="' + (cy + 600) + '">' +
+      '<stop offset="0" stop-color="#C2C6CD"/><stop offset=".5" stop-color="#E0E2E6"/><stop offset="1" stop-color="#B9BDC5"/></linearGradient>' +
+      '<linearGradient id="sv-rib" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="' + W + '" y2="0">' +
+      '<stop offset="0" stop-color="#C6CAD0"/><stop offset=".3" stop-color="#ABB0B9"/><stop offset=".55" stop-color="#DCDEE3"/><stop offset=".8" stop-color="#B3B8C0"/><stop offset="1" stop-color="#D2D5DA"/></linearGradient>' +
+      '</defs>';
+    var head = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice">';
+    var colour = head + defs, mask = head;
+    order.forEach(function (g) {
+      var d = groups[g].join('');
+      colour += '<path fill="none" stroke="' + INK[g].s + '" stroke-width="' + INK[g].w + '" stroke-linejoin="round" d="' + d + '"/>';
+      mask += '<path fill="none" stroke="#000" stroke-width="' + INK[g].w + '" stroke-linejoin="round" d="' + d + '"/>';
+    });
+    return { colour: colour + '</svg>', mask: mask + '</svg>' };
   }
 
   var FONT = '-apple-system, BlinkMacSystemFont, "Inter Site", "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
   var css = document.createElement('style');
   css.textContent =
     '@font-face { font-family: "Inter Site"; src: url("fonts/inter-var.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }' +
-    'html.sp-locked, html.sp-locked body { overflow: hidden !important; background: #000 !important; }' +
+    'html.sp-locked, html.sp-locked body { overflow: hidden !important; background: #FFFFFF !important; }' +
     'html.sp-locked body > *:not(#sp-gate) { visibility: hidden !important; }' +
     '#sp-gate { position: fixed; inset: 0; z-index: 2147483647; display: grid; place-items: center; padding: 24px 16px; overflow: hidden;' +
-    '  background: radial-gradient(120% 90% at 50% 46%, #1B1B20 0%, #0B0B0D 55%, #000 100%);' +
-    '  color: #F5F5F7; font-family: ' + FONT + '; letter-spacing: -.011em; -webkit-font-smoothing: antialiased; color-scheme: dark; }' +
-    /* the engraving: a faint base, and a lit copy that only shows where the light falls */
-    '#sp-gate .g { position: absolute; inset: 0; pointer-events: none;' +
+    '  background: #FFFFFF; color: #1D1D1F; font-family: ' + FONT + '; letter-spacing: -.011em; -webkit-font-smoothing: antialiased; color-scheme: light; }' +
+    /* the engraving in light silver */
+    '#sp-gate .g { position: absolute; inset: 0; pointer-events: none; }' +
+    '#sp-gate .g-base { background-size: cover; background-position: center; background-repeat: no-repeat; opacity: .72; }' +
+    /* the same lines, lit: only visible where the floating light falls */
+    '#sp-gate .g-lit { overflow: hidden;' +
     '  -webkit-mask-size: cover; mask-size: cover; -webkit-mask-position: center; mask-position: center; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }' +
-    '#sp-gate .g-base { background: rgba(255,255,255,.065); }' +
-    '#sp-gate .g-lit { overflow: hidden; }' +
-    /* a soft light wanders the screen; its core reads as polished metal */
-    '#sp-gate .spot { position: absolute; left: 0; top: 0; width: 64vmax; height: 64vmax; margin: -32vmax 0 0 -32vmax; border-radius: 50%;' +
-    '  background: radial-gradient(closest-side, #FFFFFF 0%, rgba(246,241,230,.92) 14%, rgba(205,208,216,.55) 34%, rgba(150,155,166,.22) 58%, rgba(150,155,166,0) 100%);' +
-    '  animation: sp-wander 64s ease-in-out infinite; will-change: transform; }' +
-    '@keyframes sp-wander {' +
-    '  0%   { transform: translate(22vw, 26vh); }' +
-    '  20%  { transform: translate(74vw, 14vh); }' +
-    '  40%  { transform: translate(86vw, 62vh); }' +
-    '  60%  { transform: translate(54vw, 88vh); }' +
-    '  80%  { transform: translate(14vw, 72vh); }' +
-    '  100% { transform: translate(22vw, 26vh); } }' +
-    /* every so often a thin glint crosses on a diagonal, like tilting a note */
-    '#sp-gate .glint { position: absolute; left: 50%; top: 50%; width: 26vmax; height: 260vmax; margin: -130vmax 0 0 -13vmax;' +
-    '  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(214,222,236,.28) 38%, rgba(255,248,234,.62) 50%, rgba(214,222,236,.28) 62%, rgba(255,255,255,0) 100%);' +
-    '  transform: rotate(24deg) translateX(-130vmax); animation: sp-glint 26s cubic-bezier(.45,0,.25,1) 3s infinite; will-change: transform; }' +
-    '@keyframes sp-glint { 0% { transform: rotate(24deg) translateX(-130vmax); } 46%, 100% { transform: rotate(24deg) translateX(130vmax); } }' +
-    /* the glass panel: dark, so it belongs on the engraving and catches the light behind it */
+    '#sp-gate .light { position: absolute; left: 0; top: 0; border-radius: 50%; will-change: transform; }' +
+    /* a glassy silver light: a bright core, a polished steel ring, then a soft cool-and-warm falloff */
+    '#sp-gate .l1 { width: 62vmax; height: 62vmax; margin: -31vmax 0 0 -31vmax;' +
+    '  background: radial-gradient(closest-side, rgba(255,255,255,1) 0%, rgba(250,251,253,.95) 6%, #7F8793 17%, #98A0AC 28%, rgba(176,183,194,.85) 40%, rgba(201,196,186,.5) 54%, rgba(214,219,227,.25) 68%, rgba(214,219,227,0) 84%);' +
+    '  animation: sp-float-1 180s ease-in-out infinite; }' +
+    '#sp-gate .l2 { width: 40vmax; height: 40vmax; margin: -20vmax 0 0 -20vmax; opacity: .55;' +
+    '  background: radial-gradient(closest-side, rgba(255,255,255,.95) 0%, #8C95A3 22%, rgba(170,178,190,.6) 45%, rgba(190,196,206,0) 80%);' +
+    '  animation: sp-float-2 140s ease-in-out infinite; }' +
+    '@keyframes sp-float-1 {' +
+    '  0%   { transform: translate(24vw, 28vh); }' +
+    '  20%  { transform: translate(70vw, 16vh); }' +
+    '  40%  { transform: translate(84vw, 60vh); }' +
+    '  60%  { transform: translate(56vw, 86vh); }' +
+    '  80%  { transform: translate(16vw, 70vh); }' +
+    '  100% { transform: translate(24vw, 28vh); } }' +
+    '@keyframes sp-float-2 {' +
+    '  0%   { transform: translate(80vw, 82vh); }' +
+    '  25%  { transform: translate(30vw, 90vh); }' +
+    '  50%  { transform: translate(12vw, 30vh); }' +
+    '  75%  { transform: translate(60vw, 10vh); }' +
+    '  100% { transform: translate(80vw, 82vh); } }' +
+    /* the glass panel, light again */
     '#sp-gate form { position: relative; width: 100%; max-width: 400px; padding: 40px 32px 32px; border-radius: 32px; text-align: center;' +
-    '  background: rgba(30,30,34,.5); -webkit-backdrop-filter: blur(26px) saturate(160%); backdrop-filter: blur(26px) saturate(160%);' +
-    '  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), inset 0 0 0 1px rgba(255,255,255,.07), 0 0 0 .5px rgba(255,255,255,.1), 0 50px 120px -40px rgba(0,0,0,.9);' +
+    '  background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%);' +
+    '  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(255,255,255,.6), 0 0 0 .5px rgba(0,0,0,.08), 0 40px 90px -36px rgba(40,48,60,.35);' +
     '  transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .5s; }' +
-    '@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) { #sp-gate form { background: rgba(28,28,30,.96); } }' +
-    '@media (prefers-reduced-transparency: reduce) { #sp-gate form { background: #1C1C1E; } }' +
+    '@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) { #sp-gate form { background: rgba(255,255,255,.96); } }' +
+    '@media (prefers-reduced-transparency: reduce) { #sp-gate form { background: #FFFFFF; } }' +
     '#sp-gate .mono { width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%; display: grid; place-items: center; color: #1D1D1F; font-weight: 650; font-size: 22px; letter-spacing: -.02em;' +
-    '  background: linear-gradient(140deg, #FAFAFA 0%, #C9CBD1 38%, #F2F0EA 55%, #9EA1A8 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 6px 16px -6px rgba(0,0,0,.7); }' +
+    '  background: linear-gradient(140deg, #FBFBFC 0%, #C6C9CF 38%, #F1EFEA 55%, #A2A6AD 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 .5px rgba(0,0,0,.12), 0 6px 16px -8px rgba(40,48,60,.5); }' +
     '#sp-gate .name { font-size: 17px; font-weight: 600; margin: 0; }' +
     '#sp-gate h1 { font-size: 32px; line-height: 1.1; font-weight: 700; letter-spacing: -.03em; margin: 22px 0 10px; }' +
     '#sp-gate .note { font-size: 15px; line-height: 1.45; margin: 0 auto 26px; max-width: 30ch; }' +
     '#sp-gate .field { position: relative; }' +
-    '#sp-gate input { display: block; width: 100%; height: 54px; padding: 0 60px 0 18px; font: inherit; font-size: 17px; letter-spacing: normal; color: #F5F5F7;' +
-    '  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 14px; outline: none; transition: border-color .2s, box-shadow .2s, background-color .2s; }' +
-    '#sp-gate input::placeholder { color: rgba(235,235,245,.6); }' +
-    '#sp-gate input:focus { border-color: rgba(255,255,255,.75); background: rgba(255,255,255,.11); box-shadow: 0 0 0 4px rgba(255,255,255,.12); }' +
-    '#sp-gate input[aria-invalid="true"] { border-color: #FF6961; box-shadow: 0 0 0 4px rgba(255,105,97,.18); }' +
-    '#sp-gate button { position: absolute; top: 8px; right: 8px; width: 38px; height: 38px; border: 0; border-radius: 50%; display: grid; place-items: center; background: #F5F5F7; color: #1D1D1F; cursor: pointer; transition: background-color .2s, transform .2s; }' +
-    '#sp-gate button:hover { background: #FFFFFF; }' +
+    '#sp-gate input { display: block; width: 100%; height: 54px; padding: 0 60px 0 18px; font: inherit; font-size: 17px; letter-spacing: normal; color: #1D1D1F;' +
+    '  background: #FFFFFF; border: 1px solid rgba(0,0,0,.14); border-radius: 14px; outline: none; transition: border-color .2s, box-shadow .2s; }' +
+    '#sp-gate input::placeholder { color: #6E6E73; }' +
+    '#sp-gate input:focus { border-color: #1D1D1F; box-shadow: 0 0 0 4px rgba(29,29,31,.1); }' +
+    '#sp-gate input[aria-invalid="true"] { border-color: #D70015; box-shadow: 0 0 0 4px rgba(215,0,21,.12); }' +
+    '#sp-gate button { position: absolute; top: 8px; right: 8px; width: 38px; height: 38px; border: 0; border-radius: 50%; display: grid; place-items: center; background: #1D1D1F; color: #FFFFFF; cursor: pointer; transition: background-color .2s, transform .2s; }' +
+    '#sp-gate button:hover { background: #000000; }' +
     '#sp-gate button:active { transform: scale(.92); }' +
-    '#sp-gate button:focus-visible { outline: 2px solid #F5F5F7; outline-offset: 3px; }' +
-    '#sp-gate .err { min-height: 20px; margin: 10px 0 0; font-size: 14px; color: #FF7A72; }' +
+    '#sp-gate button:focus-visible { outline: 2px solid #1D1D1F; outline-offset: 3px; }' +
+    '#sp-gate .err { min-height: 20px; margin: 10px 0 0; font-size: 14px; color: #D70015; }' +
     '#sp-gate .help { margin: 14px 0 0; font-size: 14px; }' +
-    '#sp-gate .help a { color: #F5F5F7; text-underline-offset: 3px; }' +
-    '#sp-gate .help a:focus-visible { outline: 2px solid #F5F5F7; outline-offset: 2px; border-radius: 4px; }' +
+    '#sp-gate .help a { color: #1D1D1F; text-underline-offset: 3px; }' +
+    '#sp-gate .help a:focus-visible { outline: 2px solid #1D1D1F; outline-offset: 2px; border-radius: 4px; }' +
     '#sp-gate .shake { animation: sp-shake .42s cubic-bezier(.36,.07,.19,.97); }' +
     '@keyframes sp-shake { 15%, 85% { transform: translateX(-2px); } 30%, 70% { transform: translateX(5px); } 45%, 55% { transform: translateX(-7px); } }' +
     '#sp-gate.out { transition: opacity .6s ease; opacity: 0; }' +
     '#sp-gate.out form { transform: scale(1.04); opacity: 0; }' +
     '@media (max-width: 640px) { #sp-gate form { padding: 32px 22px 24px; border-radius: 28px; } #sp-gate h1 { font-size: 28px; } }' +
-    '@media (prefers-reduced-motion: reduce) { #sp-gate .spot, #sp-gate .glint, #sp-gate .shake { animation: none; } #sp-gate .spot { transform: translate(30vw, 30vh); } #sp-gate .glint { display: none; } #sp-gate form, #sp-gate.out { transition: none; } }';
+    '@media (prefers-reduced-motion: reduce) { #sp-gate .light, #sp-gate .shake { animation: none; } #sp-gate .l1 { transform: translate(28vw, 26vh); } #sp-gate .l2 { transform: translate(76vw, 80vh); } #sp-gate form, #sp-gate.out { transition: none; } }';
   (document.head || doc).appendChild(css);
 
   var ARROW = '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h10M9.5 4.5 14 9l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -180,19 +211,22 @@
     var base = document.createElement('div'), lit = document.createElement('div');
     base.className = 'g g-base'; lit.className = 'g g-lit';
     base.setAttribute('aria-hidden', 'true'); lit.setAttribute('aria-hidden', 'true');
-    var blobUrl = null;
+    var urls = [];
+    function toUrl(svg) {
+      try { var u = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' })); urls.push(u); return 'url("' + u + '")'; }
+      catch (e) { return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")'; }
+    }
     function paint() {
-      var svg = guilloche(window.innerWidth || 1440, window.innerHeight || 900), m;
-      try {
-        if (blobUrl) URL.revokeObjectURL(blobUrl);
-        blobUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-        m = 'url("' + blobUrl + '")';
-      } catch (e) { m = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")'; }
-      [base, lit].forEach(function (el) { el.style.webkitMaskImage = m; el.style.maskImage = m; });
+      var old = urls; urls = [];
+      var art = guilloche(window.innerWidth || 1440, window.innerHeight || 900);
+      base.style.backgroundImage = toUrl(art.colour);
+      var m = toUrl(art.mask);
+      lit.style.webkitMaskImage = m; lit.style.maskImage = m;
+      setTimeout(function () { old.forEach(function (u) { try { URL.revokeObjectURL(u); } catch (e) {} }); }, 1000);
     }
     paint();
     var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(paint, 250); });
-    lit.innerHTML = '<div class="spot"></div><div class="glint"></div>';
+    lit.innerHTML = '<div class="light l1"></div><div class="light l2"></div>';
     g.appendChild(base); g.appendChild(lit);
 
     var box = document.createElement('div');
