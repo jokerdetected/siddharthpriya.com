@@ -46,7 +46,7 @@
   /* ---------- Guilloché rosettes, drawn line by line ---------- */
   var SVGNS = 'http://www.w3.org/2000/svg', TAU = Math.PI * 2;
   /* silver with only a hint of hue */
-  var PALETTE = ['#8E9AAE', '#C4A4AE', '#9CB4A6', '#ACA6C6', '#C6B892', '#A2A6AE', '#7F8897', '#B7AFA4'];
+  var PALETTE = ['#C6CCD6', '#E2D2D6', '#CEDAD2', '#D6D2E2', '#E2DCC8', '#D0D2D6', '#BFC4CB', '#DBD7D2'];   /* 50% lighter than the first version */
   function rnd(a, b) { return a + Math.random() * (b - a); }
   function rint(a, b) { return Math.floor(rnd(a, b + 1)); }
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
@@ -150,7 +150,7 @@
     'html.sp-locked body > *:not(#sp-gate) { visibility: hidden !important; }' +
     '#sp-gate { position: fixed; inset: 0; z-index: 2147483647; display: grid; place-items: center; padding: 24px 16px; overflow: hidden;' +
     '  background: #FFFFFF; color: #1D1D1F; font-family: ' + FONT + '; letter-spacing: -.011em; -webkit-font-smoothing: antialiased; color-scheme: light; }' +
-    '#sp-gate .bed { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }' +
+    '#sp-gate .bed { position: absolute; inset: 0; overflow: hidden; pointer-events: none; opacity: .5; }' +
     '#sp-gate .ros { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; will-change: transform, opacity; }' +
     '#sp-gate .ros path { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; shape-rendering: geometricPrecision; }' +
     /* the glass panel, light again */
