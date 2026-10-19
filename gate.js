@@ -46,7 +46,7 @@
   /* ---------- Guilloché rosettes, drawn line by line ---------- */
   var SVGNS = 'http://www.w3.org/2000/svg', TAU = Math.PI * 2;
   /* silver with only a hint of hue */
-  var PALETTE = ['#B6BDCA', '#D9C4CA', '#BFCEC5', '#C9C5DA', '#DAD1B8', '#C3C5CA', '#ACB2BB', '#D0CBC4'];   /* 35% lighter than the first version */
+  var PALETTE = ['#AAB3C2', '#D3BBC2', '#B5C7BC', '#C1BCD4', '#D4CAAD', '#B9BCC2', '#9FA6B1', '#C9C3BB'];   /* 25% lighter than the first version */
   function rnd(a, b) { return a + Math.random() * (b - a); }
   function rint(a, b) { return Math.floor(rnd(a, b + 1)); }
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
