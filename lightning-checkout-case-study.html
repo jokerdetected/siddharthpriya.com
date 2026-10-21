@@ -106,7 +106,7 @@
     .is-loaded .lineup .device { transform: none; opacity: 1; }
     @media (max-width: 760px) { .lineup .d1, .lineup .d4 { display: none; } .device { width: clamp(150px, 40vw, 220px); } .lineup { height: clamp(320px, 86vw, 420px); } }
 
-    .facts { max-width: var(--wide); margin: clamp(32px, 4vw, 48px) auto 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px 32px; }
+    .facts { max-width: var(--wide); margin: clamp(32px, 4vw, 48px) auto 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 32px; }
     .facts dt { font-size: 14px; color: var(--ink-2); }
     .facts dd { margin-top: 4px; font-size: 17px; line-height: 1.4; font-weight: 500; }
     @media (max-width: 760px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -125,7 +125,7 @@
     .block > .note { margin-top: 8px; }
 
     /* three-up summary */
-    .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); margin-top: clamp(40px, 5vw, 64px); }
+    .trio { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); margin-top: clamp(40px, 5vw, 64px); }
     .trio h3 { font-size: 15px; font-weight: 600; color: var(--ink-2); }
     .trio p { margin-top: 10px; font-size: clamp(1.1875rem, 1.6vw, 1.375rem); line-height: 1.45; letter-spacing: -.017em; }
     @media (max-width: 860px) { .trio { grid-template-columns: minmax(0, 1fr); } }
@@ -315,7 +315,6 @@
         </div>
       </div>
       <dl class="facts">
-        <div><dt>My role</dt><dd>Design lead, from the first screen to the failure states</dd></div>
         <div><dt>Platform</dt><dd>Mobile web, opened from Place order on a merchant site</dd></div>
         <div><dt>Scope</dt><dd>Every screen and state, sign-in to payment</dd></div>
         <div><dt>Status</dt><dd>Designed and built. First merchant integration pending</dd></div>
@@ -329,7 +328,6 @@
       <div class="trio">
         <div><h3>The problem</h3><p>Shoppers retype the same details on every site. 17% of people who abandon a cart blame a long or complicated checkout.<sup><a href="#s1">1</a></sup></p></div>
         <div><h3>The solution</h3><p>Recognise the shopper by mobile number, verify with a one-time code, then reuse their saved address and preferred way to pay.</p></div>
-        <div><h3>My role</h3><p>Flow architecture, interaction and visual design, and every state for when things go wrong.</p></div>
       </div>
     </section>
 
