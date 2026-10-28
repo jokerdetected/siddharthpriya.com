@@ -93,20 +93,25 @@
     /* four phones rising from the bottom edge, the middle two lifted */
     .lineup { position: relative; display: flex; justify-content: center; align-items: flex-start; gap: clamp(14px, 2.2vw, 32px);
       margin-top: clamp(56px, 7vw, 96px); height: clamp(330px, 44vw, 600px); }
+    /* The phone is the real viewport: 376 x 812. The bezel is an outer ring, so it
+       never eats into the screen. A design taller than 812 scrolls inside the frame
+       instead of being cropped or squashed. */
     .device {
       --bez: clamp(5px, .6vw, 9px);
       flex: none; width: clamp(150px, 19vw, 260px);
+      aspect-ratio: 376 / 812;
       border-radius: clamp(22px, 2.7vw, 38px);
-      background: #1D1D1F; overflow: hidden;
+      background: #FFF;
+      overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+      scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.26) transparent;
       box-shadow: 0 0 0 var(--bez) #1D1D1F,
                   0 0 0 calc(var(--bez) + 1px) rgba(255,255,255,.07),
                   0 50px 90px -40px rgba(11, 62, 145, .55);
     }
-    .device img { display: block; width: 100%; height: auto; border-radius: inherit; }
-    /* the hero row keeps one frame height so the four phones line up; the frame
-       is exactly 376:812 now, so only an over-tall screen trims, never the sides */
-    .lineup .device { aspect-ratio: 376 / 812; }
-    .lineup .device img { height: 100%; object-fit: cover; object-position: top; }
+    .device::-webkit-scrollbar { width: 4px; }
+    .device::-webkit-scrollbar-track { background: transparent; }
+    .device::-webkit-scrollbar-thumb { background: rgba(0,0,0,.26); border-radius: 4px; }
+    .device img { display: block; width: 100%; height: auto; }
     .lineup .d1, .lineup .d4 { margin-top: clamp(48px, 6vw, 84px); }
     .js .lineup .device { transform: translateY(40px); opacity: 0; transition: transform 1.2s var(--ease), opacity 1.2s var(--ease); }
     .js .lineup .d2 { transition-delay: .06s; } .js .lineup .d3 { transition-delay: .12s; } .js .lineup .d4 { transition-delay: .18s; }
@@ -240,7 +245,7 @@
     .decision .why { margin-top: 18px; font-size: 19px; line-height: 1.55; }
     .decision .cost { margin-top: 18px; padding: 16px 20px; border-radius: 14px; background: var(--canvas); font-size: 16px; line-height: 1.5; color: #3A3A3C; }
     .decision .cost b { color: var(--ink); font-weight: 600; }
-    .pair { display: flex; justify-content: center; gap: clamp(14px, 2vw, 24px); padding: clamp(28px, 4vw, 48px) clamp(16px, 3vw, 40px); border-radius: var(--radius); background: var(--tint); }
+    .pair { display: flex; justify-content: center; align-items: flex-start; gap: clamp(14px, 2vw, 24px); padding: clamp(28px, 4vw, 48px) clamp(16px, 3vw, 40px); border-radius: var(--radius); background: var(--tint); }
     .pair .device { width: clamp(130px, 15vw, 210px); box-shadow: 0 0 0 var(--bez) #1D1D1F, 0 0 0 calc(var(--bez) + 1px) rgba(255,255,255,.07), 0 30px 60px -32px rgba(11,62,145,.55); }
     .pair .d-b { margin-top: 36px; }
     .decision:nth-of-type(even) .copy { order: 2; }
@@ -283,7 +288,7 @@
     /* lightbox */
     dialog.lb { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
     dialog.lb::backdrop { background: rgba(245,245,247,.86); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-    dialog.lb img { max-height: 88vh; width: auto; border-radius: 28px; border: 8px solid #1D1D1F; background: #1D1D1F; }
+    dialog.lb img { display: block; max-height: 88vh; width: auto; margin: 10px; border-radius: 28px; background: #FFF; box-shadow: 0 0 0 8px #1D1D1F; }
     dialog.lb button { position: fixed; top: 16px; right: 16px; font: inherit; font-size: 15px; font-weight: 500; padding: 10px 18px; border: 0; border-radius: 999px; background: var(--ink); color: #fff; cursor: pointer; }
 
     @media (prefers-reduced-motion: reduce) {
@@ -500,7 +505,7 @@
       <div class="wide">
         <p class="kicker">The design</p>
         <h2 id="design-t">Twelve screens, from number to paid.</h2>
-        <p class="lede" style="max-width:var(--text)">Scroll sideways. Tap any screen to see it larger.</p>
+        <p class="lede" style="max-width:var(--text)">Scroll sideways. Screens taller than the phone scroll inside it. Tap any screen to see it larger.</p>
       </div>
       <div class="rail-wrap">
         <div class="rail" tabindex="0" role="region" aria-label="Twelve screens from the flow, scrolls sideways">
