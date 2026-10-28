@@ -94,12 +94,19 @@
     .lineup { position: relative; display: flex; justify-content: center; align-items: flex-start; gap: clamp(14px, 2.2vw, 32px);
       margin-top: clamp(56px, 7vw, 96px); height: clamp(330px, 44vw, 600px); }
     .device {
-      flex: none; width: clamp(150px, 19vw, 260px); aspect-ratio: 376 / 812;
-      border: clamp(5px, .6vw, 9px) solid #1D1D1F; border-radius: clamp(26px, 3.2vw, 46px);
+      --bez: clamp(5px, .6vw, 9px);
+      flex: none; width: clamp(150px, 19vw, 260px);
+      border-radius: clamp(22px, 2.7vw, 38px);
       background: #1D1D1F; overflow: hidden;
-      box-shadow: 0 50px 90px -40px rgba(11, 62, 145, .55), 0 0 0 1px rgba(255,255,255,.06);
+      box-shadow: 0 0 0 var(--bez) #1D1D1F,
+                  0 0 0 calc(var(--bez) + 1px) rgba(255,255,255,.07),
+                  0 50px 90px -40px rgba(11, 62, 145, .55);
     }
-    .device img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: clamp(20px, 2.6vw, 37px); }
+    .device img { display: block; width: 100%; height: auto; border-radius: inherit; }
+    /* the hero row keeps one frame height so the four phones line up; the frame
+       is exactly 376:812 now, so only an over-tall screen trims, never the sides */
+    .lineup .device { aspect-ratio: 376 / 812; }
+    .lineup .device img { height: 100%; object-fit: cover; object-position: top; }
     .lineup .d1, .lineup .d4 { margin-top: clamp(48px, 6vw, 84px); }
     .js .lineup .device { transform: translateY(40px); opacity: 0; transition: transform 1.2s var(--ease), opacity 1.2s var(--ease); }
     .js .lineup .d2 { transition-delay: .06s; } .js .lineup .d3 { transition-delay: .12s; } .js .lineup .d4 { transition-delay: .18s; }
@@ -219,8 +226,6 @@
       margin-top: 32px; scrollbar-width: thin; }
     .rail figure { flex: none; width: clamp(200px, 22vw, 260px); scroll-snap-align: start; }
     .rail .device { width: 100%; }
-    .rail .device.tall { aspect-ratio: auto; }
-    .rail .device.tall img { height: auto; object-fit: initial; }
     .rail figcaption { margin-top: 16px; font-size: 15px; line-height: 1.45; color: #3A3A3C; }
     .rail figcaption b { display: block; font-size: 17px; color: var(--ink); margin-bottom: 2px; }
     .rail-wrap { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; }
@@ -236,8 +241,7 @@
     .decision .cost { margin-top: 18px; padding: 16px 20px; border-radius: 14px; background: var(--canvas); font-size: 16px; line-height: 1.5; color: #3A3A3C; }
     .decision .cost b { color: var(--ink); font-weight: 600; }
     .pair { display: flex; justify-content: center; gap: clamp(14px, 2vw, 24px); padding: clamp(28px, 4vw, 48px) clamp(16px, 3vw, 40px); border-radius: var(--radius); background: var(--tint); }
-    .pair .device { width: clamp(130px, 15vw, 210px); box-shadow: 0 30px 60px -32px rgba(11,62,145,.55); }
-    .pair .device.tall { aspect-ratio: 376 / 812; }
+    .pair .device { width: clamp(130px, 15vw, 210px); box-shadow: 0 0 0 var(--bez) #1D1D1F, 0 0 0 calc(var(--bez) + 1px) rgba(255,255,255,.07), 0 30px 60px -32px rgba(11,62,145,.55); }
     .pair .d-b { margin-top: 36px; }
     .decision:nth-of-type(even) .copy { order: 2; }
     @media (max-width: 860px) { .decision { grid-template-columns: minmax(0, 1fr); } .decision:nth-of-type(even) .copy { order: 0; } }
@@ -545,7 +549,7 @@
             <p class="why">Extra costs (40%) and slow delivery (20%) are top reasons to leave.<sup><a href="#s1">1</a></sup> The saved address carries a delivery promise, and four options show date and price before payment.</p>
             <p class="cost"><b>Trade-off:</b> one more decision, so the option that matches the promise is pre-selected.</p>
           </div>
-          <div class="pair"><div class="device tall"><img class="zoom" src="img/lightning-checkout/s05.webp" width="376" height="1118" alt="Saved address and delivery options" loading="lazy" style="height:100%;object-fit:cover;object-position:top"></div><div class="device d-b"><img class="zoom" src="img/lightning-checkout/s06.webp" width="376" height="812" alt="Address list" loading="lazy"></div></div>
+          <div class="pair"><div class="device tall"><img class="zoom" src="img/lightning-checkout/s05.webp" width="376" height="1118" alt="Saved address and delivery options" loading="lazy"></div><div class="device d-b"><img class="zoom" src="img/lightning-checkout/s06.webp" width="376" height="812" alt="Address list" loading="lazy"></div></div>
         </article>
 
         <article class="decision">
@@ -575,7 +579,7 @@
             <p class="why">Saved cards sit at the top with their cashback, UPI apps are one tap away, and the button states the amount. A failed payment gives the reason in plain words and other ways to pay.</p>
             <p class="cost"><b>Trade-off:</b> cash on delivery as a retry saves the order but raises return risk.</p>
           </div>
-          <div class="pair"><div class="device tall"><img class="zoom" src="img/lightning-checkout/s11.webp" width="376" height="1087" alt="UPI options" loading="lazy" style="height:100%;object-fit:cover;object-position:top"></div><div class="device d-b"><img class="zoom" src="img/lightning-checkout/s12.webp" width="376" height="812" alt="Payment failed sheet" loading="lazy"></div></div>
+          <div class="pair"><div class="device tall"><img class="zoom" src="img/lightning-checkout/s11.webp" width="376" height="1087" alt="UPI options" loading="lazy"></div><div class="device d-b"><img class="zoom" src="img/lightning-checkout/s12.webp" width="376" height="812" alt="Payment failed sheet" loading="lazy"></div></div>
         </article>
       </div>
     </section>
